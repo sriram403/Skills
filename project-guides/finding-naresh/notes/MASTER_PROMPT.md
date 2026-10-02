@@ -1,0 +1,763 @@
+# Master prompt: Finding Naresh — Bessi and the 5 Roses (continue to completion)
+
+You are taking over an in-progress Godot 4.7 game project from a previous session.
+Read this whole file (`notes/MASTER_PROMPT.md`) first, then `DESIGN.md` (the agreed story arc, world, creatures and
+the professional build process with gyms; it supersedes the original spec's plan),
+`notes/TODO.md` (live progress; its "Right now" line says exactly where work stopped),
+`notes/LESSONS.md` (what to do and not to do: read it, and add to it as you learn),
+`notes/PRINCIPLES.md` (how the user wants the work done: first principles, never
+assume an untested limit, the algorithm; also in `CLAUDE.md`),
+`notes/POLISH.md` (agreed changes for after the milestones),
+`README.md`, `FUTURE.md`, `CREDITS.md`, `design/map_plan_v1.png`, and only then the
+original spec `Finding_Naresh_Game_Demo_Build_Prompt.md`, all in
+`D:\mine\Agentics\T3_Code_Works\MPG`. Then continue from section 6. Everything below
+is established fact unless it says otherwise.
+
+**This file is kept current** (rule 11): it is updated whenever a part is finished and
+tested, so a new session (any model) can resume if the previous one ran out.
+Last updated: 2026-09-29, Milestone E (Naresh and Bessi, E1-E7) done and
+approved by the user part by part (each with its decisions, "for now"); E8
+the full run and the push.
+Milestones A-E are done, approved by the user and pushed. The user is here:
+one part at a time, their test before each push (rule 2). Next: Milestone F
+(the return), whose open questions (`design/RETURN.md`) must be discussed
+with the user before anything is built.
+Start at section 6.
+
+---
+
+## 1. The project in one paragraph
+
+A two-player, local split-screen, first-person co-op road-trip adventure. Two friends
+drive a battered camper van to find Naresh, who vanished on his way to "Bessi and the
+5 Roses" with a "friend" nobody ever met (the twist: the friend was imaginary, left
+ambiguous). Half driving and van upkeep (fuel, heat, coolant, tyres, battery, cargo),
+half on-foot exploration, co-op puzzles, paper-map navigation, physics comedy.
+Creatures you hide from (no killing; a hidden flare gun scares them off). Target: a
+polished demo (the 30-minute cap is relaxed: up to ~3 h is fine, pacing matters),
+Windows PC, keyboard + mouse for P1 and a controller for P2. The full story arc is in
+`DESIGN.md`. Engine: Godot 4.7.1, GDScript, everything built
+in code (no hand-made scenes beyond `scenes/Main.tscn` running `Boot.gd`).
+
+GitHub: <https://github.com/sriram403/Band5R> (branch `main`). **Push only as
+the `sriram403` account, never `sriram-lexbolt`** (both are in this PC's
+credential manager; the repo's local git config pins
+`credential.https://github.com.username = sriram403`; check it before a push). The user is
+**sriram**; refer to them as "the user"/"you", pronouns
+they/them.
+
+---
+
+## 2. Status right now (2026-09-29)
+
+- **Stage 1** (prototype + feel pass) and **Milestone A** (homestead -> road trip ->
+  water works -> broken bridge): done, approved, pushed.
+- **Design agreed and pushed** in `DESIGN.md`: two homes + split tutorial, the way out
+  teaching every mechanic, Bessi = an empty dusk beach inspired by Besant Nagar
+  (Elliot's) Beach with the Five Roses rising from supernatural smoke (Naresh in the
+  fifth), the return by a different road with Naresh (creatures follow him; he can be
+  taken), Naresh's home + hidden tracker, the sunny drive home and the LiveStander
+  teaser. Colour/mood curve bright -> grey -> dark -> bright. No health system: being
+  caught separates you. Art stays block-out until a polish stage at the very end.
+- **Small fixes** (ESC, handbrake, brakes, wheels, seated pose, van hits player,
+  engine/pour/nature sounds, horizon ridges): done, 171 play-test checks pass,
+  **approved and pushed** (main at `603fe46`).
+- **Milestone B (foundations)**: done, approved and pushed (2026-09-24):
+  - map plan v1 (`design/map_plan_v1.png`, `tools/gen/map_plan.py`) approved;
+  - gyms done: `world/GymBuilder.gd` (`base` gym), `-- --gym=<name>`,
+    `GYM=base tools/run_test.sh`, scenario `t_gym`; `Landscape.height_fn` lets a gym
+    define its own ground; `Boot.gym_request` ("?" = none, "" = world) survives a
+    scene reload;
+  - developer menu done: `dev/DevMenu.gd` (F1), scenario `t_dev`;
+  - chunked terrain done: `Landscape.build_terrain()` makes 250 m tiles (near 5 m
+    mesh, far 20 m mesh with skirts, `visibility_range` switch at 800 m); world size
+    is `Landscape.EXTENT` (static var, set by the builder; `--extent=<m>` override,
+    `ARGS="--extent=4000" tools/run_test.sh perf` for load tests). 4 km: 144 fps,
+    4.8 s build;
+  - beat chart v1 (`design/BEAT_CHART.md`) **approved** ("happy");
+  - mirrors + nav swing (user request) done: `Camper._build_mirrors()` (two door
+    mirrors + rear-view: SubViewport cameras looking back, texture flipped on a quad,
+    rendered only while someone is seated, round-robin one mirror every 2nd rendered
+    frame from `Camper._process`; costs ~14 fps: 144 -> ~130 with both views
+    driving). `Camper.swing_nav()` / `nav_aside` (N key, pad A, either seat): the nav
+    label moves to the driver's private visual layer so only the passenger's camera
+    draws it. Scenario `t_mirrors`;
+  - full play-test after mirrors: 180 checks, 0 failures, ~130 fps;
+  - **4 x 4 km greybox done** (second thread): layout data in `LevelLayout.gd`
+    consts (was `LevelBuilder.gd`), mirrored in `tools/gen/layout_check.py` (checks grades/cuts/gaps,
+    `--draw` makes `design/greybox_layout.png`). Roads: home_lane (homestead ->
+    town -> P2 -> J1), valley_road, ridge_track, pump_house_road (J2 -> bridge ->
+    J3), ghat_road (2 hairpins to the pass), beach_road (-> bessi_loop around the
+    roses by the beach), coast_road (Bessi -> fishing village, salt pans, estuary
+    bridge, under Tunnel Hill -> Naresh's home), west_road (-> homestead),
+    tower_road (west_road -> ending watchtower -> P2). Sea + beach east, trees
+    tiled, world builds ~7 s. Fixed an old bug: terrain triangles faced down
+    (ground lit from below); albedo 0.6 keeps the approved brightness.
+  - full suite on the new map: 180 checks pass (after fixing a lake-sound and
+    two test-placement issues).
+  - every road driven and timed (`tools/run_test.sh routes`, not in the default
+    list; 16 min of driving at ~60 km/h). Fuel use lowered (FUEL_PER_KM 2.5).
+  - **Milestone B approved by the user ("tested all good") and pushed.**
+- The plan for B-G, with sub-steps, is in `notes/TODO.md`.
+- **Cloud PRs #1–#6 reviewed and merged into `main` (2026-09-24):** #1 added
+  Linux headless tests and GitHub CI; #4 fixed nine bugs (including the steam
+  cloud and controller disconnect) and added `notes/CODE_REVIEW.md`; #5 made
+  world building about 1.5 times faster with identical generated world data;
+  #6 split LevelBuilder into five files without intended behavior changes;
+  #2 added valve B's two kick-backs and `design/PUZZLES.md`; #3 added five
+  design proposal pages for D/E/F, creatures and Naresh. A follow-up to #6
+  fixed the layout test for a connected P2 pad and restored its starting layout.
+  All six GitHub PRs are closed as merged. Local `main` was pulled after #3.
+  The last complete windowed run, on the #2 preview with the pad connected,
+  recorded **191 passes, 0 failures**. The #3 docs-only preview was stopped
+  after 161 passes, 0 failures because a full gameplay run was unnecessary.
+  The valve B feel remains a human judgment; the user chose the automated
+  result only for this review. Treat the new design pages as proposals, not
+  approved implementation decisions.
+- **Three test levels done locally (2026-09-25, not pushed):** scenario timing
+  added to `PlayTest.gd`. Baseline old suite: 951 seconds of scenarios, zero
+  failures (`journey` 488 s, `waterworks` 91 s, `lap` 69 s). Default
+  `tools/run_test.sh` now runs basic mechanic checks in the base gym, then
+  teleported world checks: Quick 265 s (~4.5 min), zero failures, no script
+  errors. `tools/run_test.sh full` runs the gym plus the old broad world suite
+  and all eight roads: 2010 s (~33.5 min), zero failures, no script errors.
+  `python tools/gen/layout_check.py` takes ~2 s, "no problems". A screenshot
+  review found the fading control reminder over the objective in split view;
+  it was moved to bottom right and checked on foot and in both seats (0
+  failures). Current local commits are beyond the merged cloud PRs; do not
+  push before the user's milestone approval.
+- **Milestone C started:** `notes/TODO.md` has the approved opening's detailed
+  checklist. The tyre gym has a fixed trap, a physical spare-wheel swap, flat
+  handling and a 20% handbrake slope. Its 17 checks pass in 33.5 s; the
+  default Quick repeat including it finished with zero failures and script
+  errors. The world puncture is after Town Fuel; its story-gated teleport
+  check passes (three checks). The house gym then passed 15 checks: battery
+  search and torch, doors, shed, full can, real stair walk and window sightline.
+  The same house now replaces P2's world block, and Town Fuel has a working
+  pump; seven world checks pass. Traffic gym passed three obstruction checks;
+  four cars are placed on the town lane and six world checks pass. P2's drive
+  measures 20.9%, holds the van with the handbrake and rolls it without one;
+  the terrain joins the slab and its screenshot was inspected. The default
+  Quick repeat across all three opening gyms, base gym and world passed with
+  zero failures and no script errors. The phone, per-player objectives, split
+  start, pick-up and save/load of the opening followed.
+- **Milestone C review (2026-09-25, Claude):** eleven fixes to the earlier
+  work, listed in `notes/TODO.md` under "Review fixes" (controller journal
+  button, Town Fuel off the road, town cars jamming, gym crash, tyre and nail
+  visuals, phone redesign, test helper bugs). `opening_full` plays the whole
+  opening with the real controls: see TODO.md for its timing. The user's test
+  then found P2's house unusable (stairs, doors, drive lip) and the nails
+  gated behind the refuel; fixed, `opening_p2` added to Quick (P2 walked for
+  real), and Milestone C was approved and pushed.
+- **Milestone D (the way out) done:**
+  the way-out and creature pages were approved with every recommended answer.
+  Gyms done, each with its own test, all in Quick: `tagging` (T / MMB / RT,
+  a pin both players see, 200 m, 20 s), `binoculars` (pick-up, RMB / LT 4x),
+  `stealth` (creature sight, hearing, suspicion, chase; being taken to a drop
+  point; the cardboard box, peeking, thrown lures) and `creature` (the van:
+  engine/door/horn noises, the staged attack, the tarp). Then D5 traffic
+  (table-driven, `world/Traffic.gd`, the one `Lorry`) and D6 the mood curve
+  (`world/Mood.gd`). Metrics are in `DESIGN.md` 6.1. D7 the windmill brake
+  (`puzzles/WindmillBrake.gd`, `world/Ladder.gd`, `t_windmill`, saved) done.
+  D8 the power line (`puzzles/PowerLine.gd`, bridge hut, `t_power`) done.
+  D9 the lift bridge (`puzzles/LiftBridge.gd`, `t_bridge`) and D10 the ghat
+  (`world/Ghat.gd`: fog, pace notes, glimpse, first attack; `t_ghat`) done.
+  D11 the coast watchtower (`world/CoastWatch.gd`, `t_tower`) and D12
+  (`puzzles/BarnMaze.gd`, `puzzles/LookoutRelay.gd`, `t_maze`, `t_relay`)
+  done. D13 `t_way_out` (Full only) drives J1 -> the watchtower on both
+  routes. Full: 525 checks (1 fixed and rerun); Quick 436, 0 failures.
+  **Pushed 2026-09-26 at the user's request (main `43df9fa`)**; the user's own
+  test (`notes/TEST_MILESTONE_D.md`) is pending: the windmill was checked
+  ("like it"), the rest not yet.
+  The tarp and the cardboard box are block-outs awaiting the user's look
+  approval.
+- **Milestone E started (2026-09-27, new thread):** the command key chosen by
+  the user: **V / D-pad Up**. E1 built: `naresh/Naresh.gd` (follow, wait, go,
+  carry, store, refuel, hold, work, get in / out of the van's bench, the
+  scripted refuel mistake, nine random acts every 3-6 min announced 3 s
+  before and never in a `naresh_calm` zone, taken when alone by a creature
+  and left high up 200-400 m off, shouting until fetched, knocked by the van,
+  save / load), `world/Workable.gd` (hold / work things), the command wheel
+  (`PlayerRig`, `ui/CommandWheel.gd`), his subtitles (`PlayerHUD`), the
+  `naresh` gym, F1 rows, `t_naresh` (0 failures, ~5 min). set:gyms 21
+  scenarios 0 failures. **Approved by the user and pushed (2026-09-27).**
+- **Milestone E done (2026-09-27 to 29), each part approved and pushed**
+  (test sheets and decisions: `notes/TEST_MILESTONE_E.md`):
+  E2 the Bessi beach (`world/Bessi.gd`; promenade, stall lights, the radio
+  tune `tools/gen/radio.py`, the memorial on the photo line, lighthouse, the
+  nav's NO SIGNAL); E3 the photo (`world/Alignment.gd`, `core/PhotoCamera.gd`:
+  line up two landmarks within 2 m, the photo goes to P2's phone); E4 the
+  roses (`world/Roses.gd`: sunk until the photo spot is found, smoke, they
+  rise, carvings, Naresh sitting in the fifth); E5 the evidence
+  (`world/Evidence.gd`: his camp, footprints for one, packing up); E6 the
+  store and the boat (`world/BessiTasks.gd`, `items/FuelDrum.gd`: batteries
+  from the rolled-up store, the 40 L drum under an upturned boat that needs
+  three pairs of hands, Naresh on the wrong side first); E7 the storm
+  (`world/StormFront.gd`: a black bank over the Beach Road, rain, lightning,
+  thunder `tools/gen/thunder.py`; the roses sink; "my friend says we should
+  go north"; Bessi ends on the coast road north with Naresh in the back).
+  F1 → Story jumps to any Bessi step set the world up (`Story._bessi_state_for`)
+  and put both players, Naresh and the van at the step (`DevMenu.go_to_step`).
+  Tests: `set:bessi` (11 scenarios), `t_bessi_save`, `t_bessi_run` (Full).
+- **Working in two copies (user, 2026-09-27):** `MPG` runs the long tests,
+  `../MPG_dev` (a git worktree, branch per part) builds the next part at the
+  same time; two game instances measured fine (112 vs 144 fps). The user's
+  principles: `notes/PRINCIPLES.md`, `CLAUDE.md`.
+
+---
+
+## 3. Rules the user has set (follow exactly)
+
+1. **Nothing on the C: drive.** All tools, downloads, caches, user data stay inside the
+   MPG folder on D:. Godot's `user://` is rooted at `%APPDATA%`; `Play.bat`,
+   `OpenEditor.bat` and `tools/run_game.sh` set `APPDATA`/`LOCALAPPDATA` to
+   `MPG\appdata`. **Always launch Godot through `tools/run_game.sh` (from a shell) or
+   the .bat files, never the exe directly.** `config/custom_user_dir_name` alone does
+   NOT move user data off C: (it appends under %APPDATA%). Verify, don't assume.
+2. **Milestone gate.** Finish a milestone (or a part the user asks to see), play-test
+   it yourself until you are satisfied, then **stop and hand over for the user's own
+   test.** Only after they approve: **push to GitHub**, then start the next part.
+   Never push untested/unapproved work. Commit locally as you go (small, descriptive
+   commits).
+3. **"Let's discuss" means discuss.** Do not build anything the user marked "let's
+   discuss" in `FUTURE.md` until you have talked it through with them and agreed a
+   design. Small clear bug reports can be fixed directly (say so in your report).
+4. **`notes/TODO.md` is the live checklist.** Since 2026-09-24 it is pushed to GitHub
+   (the user asked, for safety); commit it with the work. Keep it up to date LIVE
+   and in DETAIL: a "Right now" line at the top, `[~]` for the item in progress, and
+   sub-steps added and ticked as each small piece lands, not only when a whole
+   feature is done. The user opens it at any time to see exactly where the work is.
+5. **`notes/MASTER_PROMPT.md` (this file) is pushed too** (since 2026-09-24).
+6. **Autonomous play-test-and-fix loop.** Play the game yourself with the automated
+   play-test (section 5), find problems, fix them, re-test, and only stop when
+   everything you can find is fixed or you truly need the user's input. The user does
+   not want to be the tester for things you can detect yourself.
+7. **Report format at hand-over:** (a) what you could not test, (b) what is done,
+   (c) the next step. Plain language; the user is not a professional developer.
+   Screenshots from `_shots/` are welcome.
+8. **Assets:** CC0 packs are approved (credit them in `CREDITS.md`; keep source zips in
+   `assets_src/`, which is gitignored; copy only used files into `FindingNaresh/`). The
+   user wants to **agree on the look of every new asset before it is populated** into
+   the world (FUTURE item 19) — show them first. Blender use must be discussed first.
+9. **Commit attribution:** use only attribution that truthfully reflects the
+   contributor and follows your environment's instructions.
+10. Don't spawn sub-agents unless the user asks.
+11. **Keep the notes current at every step, not only at part ends** (user, 2026-09-24:
+    a thread can stop at any moment and the next one must carry on seamlessly).
+    - Before starting a task: write it in `notes/TODO.md` "Right now" and mark it `[~]`.
+    - After every finished sub-step or test run: tick it, add the result (pass/fail,
+      numbers, what was fixed) and what comes next.
+    - Every time a part is finished and tested: also update sections 2, 4, 6 and 7
+      here, and add any hard-won lesson to section 7.
+    - Commit locally often (small commits), so an unfinished change is always either
+      committed or visible in `git status` / `git diff` for the next thread.
+    - Pushing still follows rule 2 (only approved work), except when the user asks
+      to push the notes.
+12. **Test runs must not disturb the user** (they watch videos / work meanwhile): use
+    `tools/run_test.sh` (window behind all others, focus handed back, muted).
+13. **Professional process** (`DESIGN.md` section 6): design first, a gym (test map)
+    per mechanic, then greybox in the world, automated tests, dev menu, 144 fps budget.
+14. **Working mode while the user is away (user, 2026-09-26):** build the
+    milestones one after another. For each: build, play-test until clean
+    (Quick after each part, Full at the end), write
+    `notes/TEST_MILESTONE_<X>.md` (a step-by-step checklist for the user,
+    like `TEST_MILESTONE_D.md`: what to do, what should happen, what to
+    report, plus "Decisions to confirm"), **push** (allowed in this mode),
+    then start the next milestone. Open design questions: use the
+    provisional answers in section 6 and list them for review. **If the
+    user sends a message, go back to rule 2** (one milestone at a time, their
+    approval before pushing). Their reports on earlier milestones come first.
+
+15. **The polish list, `notes/POLISH.md`** (user, 2026-09-26): changes the
+    user has agreed but wants left until every milestone is built. Don't
+    build them during the milestones; add to the list whenever the user
+    agrees something "for later"; **remind the user of it when all the
+    milestones are done, or whenever they ask.**
+16. **Lessons, written as you learn them (user, 2026-09-27):** every big
+    lesson (a bug's real cause, a testing mistake, a design insight from the
+    user's play, a Godot trap) goes into `notes/LESSONS.md` **at once**, not
+    at the end of a milestone or a full test run: a thread can be compacted or
+    stop at any moment. Before leaving a milestone or a thread, go through
+    the work and add what's missing.
+18. **Work from first principles (user, 2026-09-27):** `notes/PRINCIPLES.md`.
+    Break a problem down, test the assumption with the smallest experiment,
+    then decide; never assume a limit (speed, cost) you haven't measured.
+    Build in `../MPG_dev` (a git worktree) while long tests run in `MPG`.
+17. **At the end of each milestone, stop and ask (user, 2026-09-27):**
+    "continue in this thread, or shall I prepare the hand-over notes for a
+    new one?" Don't start the next milestone unasked. In the polishing stage,
+    when the user gives a task, first give a quick recommendation (from how
+    much of this thread's context is used and how big the task is) on
+    whether to do it here or in a new thread, to save their tokens.
+19. **Remember mistakes (user, 2026-10-02):** every time an assumption meets
+    a different reality, write *assumed -> reality -> fix -> habit* in the
+    mistake log in `notes/ROUGH_NOTES.md` at once; read it before starting
+    something similar. Every learning goes in the rough notes as it happens.
+20. **"Update the md files" (user, 2026-10-02)** means every file listed in
+    `CLAUDE.md` / `AGENTS.md` ("Remember mistakes...") that the change
+    touches, including the user's skill `first-principles-solving` (general
+    lessons only) and `AGENTS.md` for GPT and other models.
+21. **Test by the watched run (user, 2026-10-02):** planned steps with
+    expected outcomes, checked in parallel inside the game, stop on the first
+    failure, resume from that step's save point; don't stop to check steps
+    that worked (`notes/TESTING_METHOD.md`).
+
+---
+
+## 4. How the project is built (architecture)
+
+```
+MPG/
+  Play.bat / OpenEditor.bat     launchers (with the APPDATA redirect)
+  tools/run_game.sh             shell launcher with the same redirect (use this)
+  tools/godot/                  portable Godot 4.7.1 (+ ._sc_ marker); exes NOT in git
+  appdata/                      user:// data (settings, logs, saves) - gitignored
+  design/                       map, beat chart, approved opening; D/E/F and
+                                puzzle/creature/Naresh proposals
+  tools/run_test.sh             the play-test launcher (behind other windows)
+  tools/gen/                    generators: glug.py (pour sound), map_plan.py (plan image)
+  DESIGN.md                     the agreed design (pushed)
+  notes/                        MASTER_PROMPT.md, TODO.md, CODE_REVIEW.md
+  assets_src/                   downloaded CC0 packs - gitignored
+  FindingNaresh/                the Godot project
+    scenes/Main.tscn            one node running Boot.gd
+    audio/                      the CC0 sound files actually used
+    _shots/                     screenshots from tests - gitignored
+    scripts/
+      core/Boot.gd              session root: world, players, split-screen, menus
+                                (title/pause/load/quit-confirm), device assignment,
+                                map explore ticks, save/load entry (load_slot, mark_saved)
+      core/InputDevice.gd       per-player input; KEYS/MOUSE/BUTTONS tables; polled in
+                                PHYSICS; taps latched from events; glyph() for prompts
+      core/SaveGame.gd          journal save slots (JSON in user://saves); collect/apply
+      core/ToonMat.gd, Build.gd materials; primitive builders; interact_area()
+      player/PlayerRig.gd       first person, carrying, map, journal, seats, footsteps
+      items/Carryable.gd        physics items (+ FuelCan, CoolantJug, Crate, MemoryFragment,
+                                CardboardBox (worn over you), BinocularPickup)
+      player/TagMarker.gd       the tag pin both players see (one per player, 20 s)
+      creatures/Hearing.gd      sound registry: emit(pos, radius, what); creatures poll since(id)
+      creatures/Creature.gd     sight, hearing, suspicion, states WANDER/CURIOUS/SEARCH/TAKE/VAN
+      creatures/Taken.gd        caught = whiteout, wake at a drop point (builder.drop_points)
+      vehicle/VanAttack.gd      the van's noises, the creature attack stages, the tarp, the horn
+      world/Traffic.gd, TrafficCar.gd, Lorry.gd   table-driven traffic, density dial, the one lorry
+      world/Mood.gd             the mood dial (sky, fog, sun, grade, birds, traffic, creature light)
+      ui/BinocularView.gd, BoxView.gd   eyepiece and box-slit overlays (shaders)
+      vehicle/Camper.gd         VehicleBody3D van: driving, fuel/temp/coolant/battery,
+                                dashboard, nav screen, filler, radiator, rear rack, seats
+      vehicle/EngineAudio.gd    CC0 engine loop pitched by a virtual gearbox, starter chug,
+                                procedural road roar
+      world/Route.gd            spline centrelines (open/closed, pinned junction heights)
+      world/RoadNetwork.gd      all roads, nearest queries, chain()
+      world/Landscape.gd        height layers; grid-stamped terrain (ArrayMesh +
+                                HeightMapShape3D); roads, river, pads; static state
+      world/LevelBuilder.gd     the world's assembly (build order, roads, spawns, items);
+                                split by job, each file extending the one before:
+                                LevelLayout (layout data, poi{}, helpers) -> LevelScatter
+                                (trees, rocks, backdrop) -> LevelPlaces (greybox places)
+                                -> LevelLandmarks (Milestone A landmarks, signs) -> LevelBuilder
+      world/Spinner.gd          windmill blades / blinking beacon
+      map/MapState.gd, PaperMap.gd   shared discovery + stamps; drawn paper map (zoom)
+      story/Story.gd            objectives, hints, beats, fragments/roses, flags
+      puzzles/CoolingStation.gd water works co-op puzzle
+      audio/Sfx.gd, NoiseLoop.gd     sample one-shots by name; procedural steam/wind/water
+      audio/Ambience.gd         forest bed + birds (CC0 loops), water emitters, cab muffle,
+                                `liveliness` dial for the mood curve
+      ui/PlayerHUD.gd, JournalPanel.gd  per-player HUD, notes, objective, journal
+      dev/PlayTest.gd           automated play-test (section 5)
+                               Quick/Full presets and per-scenario elapsed time
+      dev/DevMenu.gd            F1 developer menu (teleport, van, spawn, skip, gyms)
+      naresh/Naresh.gd          Naresh: state machine, jobs, grid pathing, random acts,
+                                taken / fetched, the van's bench (`Camper.bench`), save
+      world/Workable.gd         things held or worked (shutter, lever, crank) by players or Naresh
+      ui/CommandWheel.gd        the job wheel round the crosshair (PlayerRig.wheel_*)
+      world/Bessi.gd            E2 the beach: promenade, lights, radio, memorial on the
+                                photo line, lighthouse, the nav's "NO SIGNAL"
+      world/Alignment.gd, core/PhotoCamera.gd   E3: landmark pairs; a one-shot SubViewport photo
+      world/Roses.gd            E4: the Five Roses (sunk, smoke, rise, carvings, his seat)
+      world/Evidence.gd         E5: his camp, footprints, packing up
+      world/BessiTasks.gd       E6: the store (shutter, box of batteries), the upturned boat
+      items/FuelDrum.gd         E6: the 40 L drum, carried by two
+      world/StormFront.gd       E7: the storm bank over the Beach Road (flag storm_on)
+      world/Storm.gd            F1/F2: gusts, rain, fog, lightning, wet road (per player / van);
+                                StormFront gives it its zone over the old road, the dead end
+      world/FishingVillage.gd   F3: jetty, net shed, roof key, two cans, the refuel mistake
+      world/SaltPans.gd         F4: the gantry watcher's gaze, salt heaps
+      puzzles/SwingBridge.gd    F5: the estuary swing span, cranks, brake, tide gauge
+      world/RailTunnel.gd       F6: dark tunnel, flood gate, service gallery, winch
+      items/FlareGun.gd         F6: 3 flares, Creature.scare (80 m, 90 s)
+      puzzles/RadioMast.gd      F7: generator, beacons, dishes, cranks, the dish screen
+      world/Homecoming.gd       F8: Naresh's home, the tracker, site lights, the end screen
+      world/GymBuilder.gd       gyms: small flat test maps (extends LevelBuilder)
+```
+
+World layout (see the consts in `LevelLayout.gd` and `LevelBuilder.gd`'s header comment): 4 × 4 km,
+sea on the east. Homestead (SW) → Homestead Lane east through the town (Town Fuel) →
+P2's home → north to Windmill Junction J1 → Valley Road (Mirror Lake + dock, billboard,
+barn) or Ridge Track (gravel, lookout, wreck) → J2 Last Fuel → Pump House Road → water
+works → broken bridge → J3 → Ghat hairpins → pass → Beach Road past the coast
+watchtower → Bessi loop around the Five Roses (dune by the beach). Way back: Coast Road
+→ fishing village → salt pans → estuary bridge → rail tunnel → radio mast → Naresh's
+home → West Road home (Tower Road branch past the ending watchtower to P2).
+`builder.poi` holds named positions (j1, j2, j3, ghat_pass, facility, bridge,
+bridge_barrier_near, roses, beach, memorial, coast_tower(_deck), end_tower(_deck),
+p2_home, town_fuel, fishing_village, net_shed, salt_pans, estuary_bridge, tunnel,
+tunnel_portal, naresh_home, lookout_deck, dock, shed_roof, pump_handle, valve_a/b,
+letter, …).
+
+Story objective chain (`Story.gd`): read_letter → spare_can → to_windmill →
+choose_road → refuel → pump_road → coolant → pour_coolant → to_bridge → end_a
+("the bridge is out; milestone B"). Milestone B continues from `end_a`.
+
+---
+
+## 5. The automated play-test (your main tool)
+
+- **Test levels (user, 2026-09-26), like a professional team:** while fixing,
+  run only the scenarios for the change (`tools/run_test.sh a,b`, seconds to
+  a minute or two); then **smoke** (`tools/run_test.sh`, ~2.5 min: base gym
+  controls + one short world check per system); an **area set** when a whole
+  area changed (`set:opening / gyms / puzzles / creatures / driving / world`,
+  3-6 min each); **full** (`tools/run_test.sh full`) before a push or a
+  hand-over, and GitHub runs full on every push. Don't rerun the opening or
+  the long playthroughs for an unrelated fix. The plans live in
+  `tools/test_plan.sh` (shared with the headless runner); `SMOKE_GYM` /
+  `SMOKE_WORLD` in `PlayTest.gd`.
+- **Resume (user, 2026-09-27):** a run that broke off (crash, hang killed by
+  `TIMEOUT`, default 3600 s per game process, closed window, restart) goes on
+  with `tools/run_test.sh resume`: PlayTest writes each finished scenario and
+  its failures to `appdata/playtest/runs/progress.txt` (`--progress=`), a
+  resumed segment skips those and carries their failures; finished segments
+  are skipped. A failing segment no longer stops the run; one summary at the
+  end (`runs/summary.txt`, logs `runs/seg_N.log`), SCRIPT ERRORs reported.
+  Starting any other run clears the progress. Scenarios named on the command line run in
+  the `all` list's order, not the order typed; the window
+  starts at the screen edge, then PlayTest moves it BEHIND all windows and hands focus
+  back (run_test.sh passes the user's window as --refocus); muted unless focused, no
+  mouse grab. The user asked for this: runs must not cover what they are doing, but
+  they can click the window to watch. `SHOW=1` shows it on screen. Output lines start with `[test]` (`PASS`/`FAIL`, logs,
+  `shot test_x.png`). Screenshots land in `FindingNaresh/_shots/test_*.png`; view them.
+- It drives the REAL input path (`Input.parse_input_event`): keys, mouse, a simulated
+  gamepad on device 0; a physical P2 pad can also be connected. Add a scenario
+  as `func t_<name>()` in `PlayTest.gd` and add the
+  name to the `all` list in `_run()`. Helpers: `tap(KEY_X)`, `key(k, down)`, `mouse()`,
+  `pad_axis()`, `pad_button()`, `wait()`, `physics_frames()`, `place_player()`,
+  `face_point(p, target, dist, side)`, `van_to(poi)`, `reset_camper(i)`,
+  `seat_p1_driver()`, `reset_can(tag, litres)`, `AutoDriver` (keyboard auto-driving
+  along a Route; `boot.builder.network.chain([...])` makes a path), `check(ok, what)`,
+  `shot(tag)`.
+- Every scenario starts via `fresh_hands()` (empty hands, map/journal closed). Order
+  matters: `map` runs early because others reveal the map. The `save` scenario reloads
+  the scene; the test resumes in `t_save_verify` through static `PlayTest.resume`.
+- **(Superseded 2026-09-26 by the levels above.)** Three test levels (2026-09-25): Quick (default, ~4.5 min): basic
+  input/vehicle checks in the base gym, then world map, story, water works,
+  carrying, controller, performance and save/load by teleport. Road check:
+  `python tools/gen/layout_check.py`, ~2 s, when roads or hills change. Full:
+  `tools/run_test.sh full`, ~33.5 min (gym, old broad suite, `journey`, all
+  eight routes), when roads change and before a milestone hand-over.
+- On this Windows PC, invoke
+  `tools/run_test.sh` through Git Bash, capture the output to a log, and keep
+  only one game instance running. Read the `[test]` PASS/FAIL lines and the
+  final failure count; Godot warnings on stderr can make a PowerShell pipeline
+  report exit code 1 even when the suite passes. The script now exits nonzero
+  if any test check fails.
+- **Real input leaks in** only with `SHOW=1` (quiet runs never get focus); if a check
+  fails spuriously, re-run that scenario. Re-run single scenarios to
+  confirm before chasing a failure. Tell the user when long runs are going.
+- New `class_name` scripts need `tools/run_game.sh --headless --import` once before
+  they can be referenced, otherwise "Identifier not declared".
+- **Headless (Linux / GitHub, since 2026-09-24):** `tools/run_test_headless.sh
+  [scenarios]` runs the same play-test with no window or GPU, `--fixed-fps 60`
+  (deterministic: every frame is one 1/60 s physics step), Quick by default.
+  Screenshots are skipped and frame-rate / audio checks only logged
+  (`PlayTest.headless`). GitHub runs it plus the road check on every push
+  (`.github/workflows/playtest.yml`). Use it for logic; keep `tools/run_test.sh`
+  for looks, sound and fps. The headless script requires a Linux Godot binary;
+  this Windows PC uses the windowed script locally and GitHub runs the Linux job.
+- Also available: `-- --shot` (old capture mode); `t_overview` (top-down orthographic
+  map shots) and `t_tour` (landmark screenshots) are great for checking world changes.
+- **Connected-pad windowed runs:** the `layout` test now handles P2's physical
+  controller and restores the initial view layout before `pad`. If the Godot
+  window is minimized, physics stops and the suite can appear to hang; restore
+  it behind other windows before diagnosing a test timeout. Automated pad events
+  verify actions but cannot establish whether a mechanic feels fun.
+
+---
+
+## 6. What to do next
+
+**Milestones A-E are approved and pushed. Next, in this order:**
+
+0. **Milestone F, the return** (`notes/TODO.md`, `design/RETURN.md`,
+   `DESIGN.md`). RETURN.md's questions were answered on 2026-10-01 (its
+   "Decisions" section: storm road a dead end, the dishes point at nearer
+   return sites, the family silent, the tracker without the batteries).
+   F is split into F1-F9 in TODO.md (F1 the storm gym first), one part at
+   a time with the user's test before each push. **F1 (`world/Storm.gd`,
+   `--gym=storm`, `t_storm_gym`) is approved and pushed (2026-10-01).
+   F2 (the storm on the old road: `StormFront` zone + `Storm`, the power
+   line down, `LiftBridge.storm_blow`, `t_storm_road`) is approved and pushed
+   (2026-10-01).** F3 (`world/FishingVillage.gd`, R1 the decoy, the refuel
+   mistake, `Creature.on_return`, `t_decoy`, `t_decoy_save`, `set:return`)
+   is pushed (2026-10-01) but **not yet tested by the user**. F4-F9 are
+   built and merged into main locally (not pushed): F4 `world/SaltPans.gd`,
+   F5 `puzzles/SwingBridge.gd`, F6 `world/RailTunnel.gd` +
+   `items/FlareGun.gd` + the van's bump start, F7 `puzzles/RadioMast.gd`,
+   F8 `world/Homecoming.gd`, F9 `t_return_run` (+ `Camper._safety_net`, the
+   estuary bridge's ramps). Tests: `set:return`, `return_run` in full.
+   **Waiting for the user's test from F3 on** (`notes/TEST_MILESTONE_F.md`),
+   then push; then Milestone G (remind the user of `notes/POLISH.md`).
+   **Before that (user, 2026-10-02): walk the test sheet F3-F8 blind**
+   (real input only, nothing set in code) with the new closed-loop way of
+   testing: a live control line into the running game (`notes/ROUGH_NOTES.md`,
+   `notes/TODO.md`). Every learning goes into `notes/ROUGH_NOTES.md` at once.
+   **Mode for the rest of F (user, 2026-10-01):** build F4-F9 with the
+   recommended answers (each part's "Decisions to confirm" in
+   `notes/TEST_MILESTONE_F.md`); the user tests once F is finished, from F3
+   on; keep new parts local in main until then (no push). Then F4 (the salt pans) in
+   `../MPG_dev` on a new branch from main. Build the next part in
+   `../MPG_dev` while the long runs go in `MPG`. After all milestones,
+   remind the user of `notes/POLISH.md`.
+   (Old note: `../MPG_dev` was on branch `e7` at the start of F: start F
+   there on a new branch from main (`git -C ../MPG_dev switch -c f1 main`).
+1. Then Milestone G (`notes/TODO.md`, `DESIGN.md`). New mechanics each get
+   a gym first. The design pages (`design/*.md`) are proposals until their
+   open questions are answered by the user; the answered ones have a
+   "Decisions" section (WAY_OUT, CREATURES, BESSI, NARESH).
+2. At the end of every milestone: the full run, push, then ask the user
+   "continue in this thread, or shall I prepare the hand-over notes for a
+   new one?"
+
+## 7. Hard-won technical lessons (don't relearn these)
+
+- **Input** is polled in `Boot._physics_process` (before players/van read it); quick
+  taps are latched from events in `InputDevice.feed_event`. Polling per render frame
+  lost taps at 144 Hz. The dev machine: RTX 3060, 144 Hz 1080p.
+- **Physics interpolation is on.** Cameras are placed in `PlayerRig._process` from
+  `get_global_transform_interpolated()` and have interpolation OFF. Call
+  `reset_physics_interpolation()` after every teleport.
+- **Seated players are never reparented** into the van (it launched the van at
+  19 000 km/h). They are snapped to seat markers each tick with collision off.
+- **VehicleBody3D:** positive `engine_force` pushes this rig toward +Z, so drive forces
+  are negated; `steering` is positive-left. **Handbrake model (user-approved):**
+  `Camper.parking_brake` toggled by Space/pad B (driver or passenger), P lamp; it is the
+  ONLY hold (no auto-hold): off = the van rolls on slopes, even with nobody in it.
+  Throttle/reverse with the engine running releases it. With the engine off, S always
+  brakes. A van stopped on the handbrake with wheels down is `freeze`d (raycast brakes
+  creep). Tests must park with the handbrake (`reset_camper`/`van_to` set it) or the
+  van rolls away mid-test (this once cascaded into 18 failures).
+- **Terrain** is solved on a 5 m grid: roads and river are stamped segment-by-segment
+  (distance + height), mesh is an ArrayMesh, collision is `HeightMapShape3D` (heights
+  /STEP, shape scaled by STEP). World build ~1 s (it was 5.8 s with per-vertex nearest
+  queries). `Landscape.ground(x,z)` = bilinear on the grid once built. Buildings need
+  **pads** (`LevelBuilder.PADS`) or they sit on slopes.
+- **Roads/river** follow `Landscape.base_height` (no roads/river) so they never chase
+  their own cuts; junction heights are pinned; the road ribbon is omitted over the
+  river (bridge decks carry it).
+- **Label3D text faces +Z; `Basis.looking_at(t)` points -Z at t.** Signs had their text
+  facing away from drivers until this was fixed — aim -Z *away* from the viewer.
+- **Carryables**: held items are real bodies steered to a hold point low-right of the
+  view; collision exception with the holder; a safety net returns anything that falls
+  under the ground to its last resting spot (physics once shot a crate to y = -248).
+  `pouring` tilts items at fillers — clear it on drop/throw.
+- **CharacterBody**: keep the intended horizontal velocity (`_plan_vel`) rather than
+  the post-collision velocity, or you can never jump onto a crate you are touching. A
+  two-crate stack is a wall; climbing needs a staircase (1 crate, then 2).
+- **Interactables**: metas on Area3D/bodies: `prompt`, `prompt_fn(player)`,
+  `blocked_fn()` or `blocked_fn(player)`, `callback(player)`, `hold_fn(player, dt)`,
+  and for held items `held_prompt_fn(player, item)` + `held_action(player, item, dt,
+  first)` + `pour` flag. Hold-to-use continues while E is held and you stay within 3 m.
+- **Editing files from the shell:** heredocs with backslashes and `\n` inside Python
+  strings got mangled by the shell repeatedly. Write patch scripts with the file-write
+  tool (Python with raw strings `r'''...'''` and `assert old in s` before replacing),
+  run them, then delete them from `tools/`.
+- **GDScript** can't infer types from Variant sources (`var x := dict["k"]`, `get_node`
+  results, ternaries with untyped sides): give explicit types.
+- **Godot editor** rewrites `project.godot` (drops comments/defaults) when the user
+  opens it — that's fine.
+- **Audio**: `Sfx.play3d(name, pos, db)` picks a random CC0 variant; `NoiseLoop` for
+  procedural loops (silent ones push zero buffers, cheap). Looping imported WAVs: set
+  `loop_mode`/`loop_end` on a duplicate at runtime. You cannot listen: verify sounds by
+  state (playing, pitch, gain) in tests and ask for the user's ears. CC0 sources that
+  worked: Kenney packs, OpenGameArt (check each page's licence; curl into
+  `assets_src/`; `C:/Windows/System32/tar.exe` extracts .7z). Pillow and numpy exist in
+  the system Python; do NOT pip install (C: drive rule).
+- **Camera far plane** is 2600 m (backdrop ridges); fog ends at 1500 m.
+- **Players knocked by the van**: `PlayerRig.knock(impulse, van)` (collision exception
+  until clear); `Camper._check_pedestrians` detects just ahead of the hull, because a
+  kinematic player would stop the van dead.
+- **Split-screen shots**: `shot()` captures the window. With no connected pad,
+  solo view shows the keyboard owner's view and TAB swaps the keyboard/view.
+  With P2 on a pad, TAB leaves the keyboard with P1; use a split layout to
+  inspect both views.
+- **Gyms**: GymBuilder must provide what other systems read from a builder: `network`,
+  `route` (AutoDriver, reset_camper), `river` (MapState), `poi` ("homestead",
+  "camper_spawn"), `camper_spawn`, `player_spawns`. Story and MapState skip their
+  world-specific parts when `boot.gym != ""`. In gyms PlayTest runs only `["gym"]`.
+- A van dropped onto a slope needs ~2 s to settle on its springs before it freezes;
+  measure holds after that.
+- **Mirrors are expensive**: every SubViewport camera re-renders the world incl.
+  directional shadow cascades, with a fixed cost (far plane made no difference). All
+  three every frame: 58 fps; one per frame: 109; one every 2nd frame: ~130. Any new
+  render-to-texture (binoculars, CCTV, photo) must budget for this the same way.
+- **Private visual layers**: layer `1 << (1 + i)` is masked out of player i's camera
+  only. Use it to hide things from one player (own avatar, the nav when aside).
+- Performance: ~130 fps with both views while driving (mirrors on); keep >= 120.
+- **Terrain winding:** tile triangles are wound [a, a+1, c] so faces point up.
+  The old [a, c, a+1] order made the double-sided material flip the normals: the
+  ground was lit as if the sun were below it (flat sand looked dark khaki). The
+  terrain albedo is 0.6 to keep the approved brightness under full sun.
+- **Road profiles** (`Route` smooth_m/max_grade): the ground noise alone has ~20 %
+  slopes, so roads blur the ground over 150 m and then clamp to 10 % (gravel 15,
+  ghat 9); junction heights are the mean ground over a 50 m disk. Check a layout
+  with `python tools/gen/layout_check.py` before building it.
+- **Tunnels**: a road whose profile ignores a hill (height_fn minus that mound)
+  gets `Route.tunnel` flags where the ground is > 9 m above it; the terrain is only
+  cut as a narrow slot there (TUNNEL_FLAT/BLEND) and `_tunnel()` builds walls, a
+  roof and earth fill over it. No heightmap holes needed.
+- **Build time traps:** adding thousands of shapes to one body then reparenting
+  them is O(n²) (scatter took 94 s); create per-tile bodies up front. The terrain
+  grid solve pre-filters hills/lakes/pads per row (`_base_fast`).
+- **World build speed (2026-09-24, cloud):** ~7.0 s -> ~4.7 s headless with the
+  world bit-for-bit the same (hashes of the height/road/river grids, normals,
+  colours, every tile mesh array and every scatter transform/colour/collider
+  compared before and after). Noise factors per row/column (64-bit, same
+  expression order), tile index lists shared, the scatter's grid lookups by
+  hand, scatter colliders as shape owners instead of 59 000 CollisionShape3D
+  nodes. Tried and dropped: filling MultiMeshes from one buffer (slower to
+  build in script than the per-instance calls, and not measurable headless).
+- **Headless runs:** `frame_post_draw` never fires (so `shot()` returns early),
+  viewport textures are null, and MultiMesh instance transforms read back as
+  zero (use `builder.scatter[...]`). Without `--fixed-fps` a slow CPU runs
+  physics behind real-time waits and timing checks fail at random.
+- **Mouse look reads `screen_relative`**, not `relative`: `relative` is scaled by
+  the canvas_items stretch, so look speed changed with the window size.
+- The coast blend must not leave a step at its inland edge (a line of "white
+  dashes" in overhead shots was exactly that).
+- **Full preset order:** save/load reloads the scene and ends the test process,
+  so `routes` must run before `save`. The launcher runs the gym as a separate
+  process before the world; do not overlap game instances.
+- **Test helpers vs input latching:** `InputDevice.feed_event` latches every
+  pressed event as a tap, so re-sending a held key each tick reads as 60 taps
+  a second. `hold_physics` only re-sends a press that a focus change dropped,
+  and waits 3 ticks after release (a pour holds the can at the filler until
+  the release lands). Never edit PlayTest.gd while a run is going: later
+  segments load the file fresh.
+- **Teleporting players (`go_to`)**: cast down from just above the target's
+  own height, or inside the house you land on the upper floor.
+- **Driving into P2's drive:** the auto-driver's 8-12 m look-ahead cuts the
+  90-degree corner onto the bank. Feed it a turning arc (9 m tangents) and a
+  short look-ahead; check the van is on the slab (across < 1.4 m), not just
+  near the house.
+- **Walk, don't teleport, to find layout bugs:** `walk_to` turns the player
+  and holds W tick by tick, logging and screenshotting where they get stuck.
+  Teleport-based checks (`go_to`, `face_point`) passed while P2 could not get
+  out of the house or onto the stairs. Every walkable space gets a walk test.
+- **Terrain under narrow features:** the terrain grid is 5 m, so anything
+  narrower (the 4.6 m drive) needs the terrain lowered at least one grid step
+  either side, or the triangles between vertices poke through it.
+- **Town traffic clearance:** the van is 2.24 m wide; cars sit 2.4 m off the
+  centre and look ahead with a 1.8 m box, so a van down the middle passes.
+- **Split HUD:** the top-left objective and top-centre fading controls
+  overlapped in 800 px views. The controls now wrap at bottom right, clear of
+  the gauges. Checked on foot and from both seats.
+- **Class names must not clash with Godot's:** `class_name Noise` hid Godot's
+  own `Noise`, every script using it failed to parse and the game hung on
+  the parse error. It is `Hearing` now. Run tests under `timeout 300-400` and
+  `taskkill //F //IM "Godot*"` afterwards, so a parse error can't hang a run.
+- **Patch files, not heredocs:** bash heredocs mangled `·` and quotes in
+  GDScript. Write a small Python patch script with the Write tool, read with
+  `newline=''` and normalise CRLF (PlayerHUD.gd once had mixed endings).
+  Never edit game scripts while a test run is going; new files are safe.
+- **Long sequences in tests must be cancellable:** a running `Taken` sequence
+  teleported P1 in the middle of later checks. `Taken.cancel()` and the
+  "taken" group; `calm_creature()` cancels them and clears the creature's
+  van interest. Timers that outlive a node: use a tween owned by the node,
+  not `create_timer(...).connect(lambda)` (freed-lambda errors).
+- **Creature tests:** place players off the cover pieces (a placement on the
+  rock looked like "can't move"), flatten direction vectors before scaling
+  them into distances, and remember a van settling on its springs at the
+  start has a vertical speed (only horizontal speed counts as driving).
+- **E while holding the box means "get under it":** toss it with G/LMB to
+  put it down.
+- **Contact callbacks report the speed after the bounce:** `body_entered`
+  on a RigidBody gives the already-slowed velocity. A thrown item carries a
+  `_thrown` flag so its first landing is always loud.
+- **Things left lying around make tests flaky:** a tossed box between the
+  rock and the creature hid the peeking player one run in three. Tests put
+  such items back where they belong before the next check.
+- **Interactables need a `prompt` meta**: `PlayerRig._find_interactable` walks up
+  to the first node with `prompt`; `prompt_fn` alone is ignored (the ladder was
+  unusable). **Story steps by id**, never by number (`Story.index_of`): adding
+  the windmill step shifted a hard-coded `index >= 5`. Named scenarios outside
+  the `all` list run after `save`, which reloads the scene, so they never run:
+  add new world scenarios to `all` before `save`.
+- **Background runs and edits:** a Quick run in the background still loads
+  later segments fresh, so editing any game script while it runs spoils it.
+  Check `tasklist | grep -i godot` before editing; write only new files then.
+- **Untyped builder:** `boot.builder` is untyped in PlayTest, so `var x :=
+  boot.builder.foo...` is a parse error that stops the whole world segment
+  (0 passes): give such variables a type.
+- **Python patches through bash heredocs:** `"\n"` in a GDScript string
+  didn't match; use the Edit tool for lines with backslash escapes.
+- **`Route.nearest` only searches the hash cells round the point:** for a
+  place well off a road (the coast tower, 40 m) it can return a far sample.
+  Scan the road's points by hand for "nearest bit of road to X".
+- **Checks must be tight enough to fail:** "higher than deck - 0.6 m" passed
+  while the lookout ramp stopped short of every deck. Check the exact thing
+  (feet on the deck, within its footprint).
+- **Pretend pads leak between scenarios:** tests that call
+  `boot._on_joy_changed(0, true)` leave P2 on a pad; `_run` now calls
+  `_unplug_test_pad()` after each scenario (skipped when a real pad is in).
+- **Tests must find things the way a player does:** `t_relay` set
+  `has_binoculars = true`, so nobody noticed the binoculars were never placed
+  in the world. Pick items up with the real keys where the test can.
+- **Tests set up their own state:** the smoke order runs tests in a new
+  sequence and exposed ones that leaned on what came before (the story's spare
+  can skipped once the dev menu's fix filled the tank; the pad test couldn't
+  start an engine an earlier drive had overheated). Each scenario sets what
+  it needs (`camper().repair_all()`, the fuel, the story index).
+- **A real controller plugged in changes the tests:** P2 goes onto it and TAB
+  leaves the keyboard with P1. The opening scenarios put P2 on the keyboard
+  first (`_p2_on_keyboard`); check `pads=` on the first log line.
+- **A failing gym segment stops the Quick run** (`|| exit`), so later
+  segments don't run at all: read which segment failed, fix, and rerun Quick.
+  (Superseded: since the resume work a failing segment no longer stops the run.)
+- **A freed object reads as null:** `job_target != null and not
+  is_instance_valid(job_target)` never fired once the target was freed
+  (Godot 4 compares a freed object equal to null). Keep a flag that there
+  was a target (`Naresh._has_target`).
+- **Stowing from someone's hands:** `Carryable.stow` lets go through each
+  holder's `drop_held()`; setting `held = null` first skipped the release and
+  the item kept its holder (nobody could pick it up again). Release, then
+  stow (`Naresh._stow`).
+- **Label3D `fixed_size`:** `pixel_size` then means screen size: 0.0006 at
+  font 48 gives ~17 px letters at any distance (0.0011 at 96 was ~60 px).
+  `offset` is in those pixels too; `visibility_range_begin` hides it close up.
+- **Naresh's debug lines:** `[naresh] <state> -> <state>`, job steps and job
+  ends are printed to the log; tests also log what he says.
+- **A story jump must set up the world, not just the objective:** each
+  Bessi step's flags are set / cleared in `Story._bessi_state_for`, the
+  groups `roses`, `evidence`, `bessi_tasks`, `storm_front` get
+  `match_story`, and `DevMenu.go_to_step` moves both players, Naresh and the
+  van there. A new story step needs a row in `STEP_PLACES` and in
+  `t_step_jumps`.
+- **World tests pass alone but fail in order** when an earlier one leaves
+  state behind (the lorry gone, a can on the rack, a running engine): each
+  test resets what it uses (`Roses.reset()`, `Lorry.reset()`, `engine_on()`
+  rather than toggling).
+- **A tilted collider wedges a character:** keep pushable things' colliders
+  upright; a stuck Naresh falls back to grid A* (`_force_grid`).
+- **Two game instances at once are fine here** (112 vs 144 fps); the NVIDIA
+  driver still crashes now and then on long runs (nvoglv64.dll): resume.
+
+---
+
+## 8. Resuming in a new thread
+
+Read the files listed at the top, check `git status` / `git log -3` (and `git diff` if
+anything is uncommitted: that is the last thread's unfinished work), read
+`notes/TODO.md`'s "Right now" and the `[~]` items, tell the user in two or three plain
+lines where things stand and what you will do next, then continue from exactly there
+(section 6 for the order). Do not redo finished items. From then on follow rule 11:
+keep `notes/TODO.md` and this file current after every step, so the thread after you
+can resume the same way.

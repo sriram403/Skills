@@ -3,7 +3,7 @@
 **Current: v4 (agreed with the user 2026-10-02; built the same day).**
 Each version keeps what worked in the one before and names what it wasted.
 The general way of thinking behind it is in the skill
-`first-principles-solving` (`D:\mine\Agentics\Skills\first-principles-solving.md`).
+`first-principles-solving` (`D:\mine\Agentics\Skills\skills\first-principles-solving\SKILL.md`).
 
 ## The core problem (in the user's words, boiled down)
 

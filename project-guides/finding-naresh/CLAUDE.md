@@ -56,7 +56,7 @@ this thread or a new one.
     `notes/TEST_MILESTONE_*.md` sheet, design pages when a decision changes
   - `CLAUDE.md` and `AGENTS.md` (instructions for Claude and for GPT / other
     models: keep the two in step)
-  - the user's skills: `D:\mine\Agentics\Skills\first-principles-solving.md`
+  - the user's skills: `D:\mine\Agentics\Skills\skills\first-principles-solving\SKILL.md`
     and its copy `C:\Users\srira\.claude\skills\first-principles-solving\SKILL.md`
     (general, not game-specific, lessons only)
   - Claude's memory (`memory/`), for rules about how to work

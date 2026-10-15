@@ -1,20 +1,25 @@
 ---
 name: project-memory
-description: How to keep a project's notes so any new thread or any model (Claude, GPT/Codex, others) can continue instantly, and so lessons survive between projects - the hand-off file with a LIVE STATUS, the mistake log (assumed → reality → fix → habit), lessons written the moment they happen, AGENTS.md and CLAUDE.md kept in step, "update the md files", milestone check-ins, short threads, and promoting general lessons to the user's skills library. Use when starting or setting up any multi-session project, when the user says "update the md files", "hand over", "new thread", "write it down", "note this", or at a milestone. Always on for any task bigger than a quick question (the user's global rule), including the new-thread recommendation with a 3-minute wait.
+description: How to keep a project's notes so any new thread or any model (Claude, GPT/Codex, others) can continue instantly, and so lessons survive between projects - the hand-off file with a LIVE STATUS, the mistake log (assumed → reality → fix → habit), lessons written the moment they happen, AGENTS.md and CLAUDE.md kept in step, "update the md files", milestone check-ins, short threads, and promoting general lessons to the user's skills library. Use when starting or setting up any multi-session project, when the user says "update the md files", "hand over", "new thread", "write it down", "note this", or at a milestone. Always on for any task bigger than a quick question (the user's global rule), including the new-thread suggestion (3-minute wait, twice per thread, then just work).
 ---
 
 # Project memory: notes that let any model carry on
 
-**Version: v2 (2026-10-15).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
+**Version: v3 (2026-10-15).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
 were what let a new thread (or another model) continue with no loss. v2: always on for every
-project (global rule), and the new-thread moment as a recommendation with a 3-minute wait, never a
-stop (§4).
+project. v3: new threads are suggested twice, then the model just works (§4); own folder per project.
 
 **You may ask the user questions at any point**, e.g. which notes they want for a small project. If
-you're sure, go ahead.
+you're sure, go ahead. Keep messages to the user short and a bit fun, and say *(📓 project-memory)*
+when a behaviour comes from this skill.
 
 **When this applies:** every task bigger than a quick question or a single small change, in any
 project, without asking first (the user's global rule). For small tasks, no files.
+
+**Setting up a new project:** give it its own folder (in a workspace like `exp/`, make
+`exp/racing-game/`); if the current folder already holds the project, work there. Ask once whether
+everything (venvs, conda, downloads, caches) should stay inside that folder (recommend yes). Then
+create `HANDOFF.md` (templates below).
 
 ## 1. Why
 
@@ -57,38 +62,46 @@ Templates: [`templates/`](templates/) (AGENTS.md, HANDOFF.md, LESSONS.md).
 - **Reports** at a hand-off, in plain language: (a) what couldn't be tested, (b) what's done, (c) the
   next step.
 
-## 4. New-thread moments: recommend, wait 3 minutes, never stop the work
+## 4. New-thread moments: suggest twice, then just work
 
 Short threads with good notes beat one long thread, but the user decides: they may not care about
-tokens. So a new thread is a **recommendation, never a stop**.
+tokens at all. So a new thread is a **suggestion, never a stop**.
 
 **When:** a milestone is done; the next task doesn't need this chat's history; or you were just
 compacted (you see a summary in place of the earlier conversation). You can't measure how full your
 context is, so use these signals rather than guessing a percentage.
 
-**Flow:**
+**Flow (per thread):**
 1. **Update every note first** (HANDOFF LIVE STATUS with the exact next action, TODO, lessons), so a
    new thread could start this second.
-2. **Tell the user, short, with the reason and both options**, e.g.:
-   > Milestone 2 is done and the notes are up to date. **I recommend a new thread** for milestone 3:
-   > most of this chat (the menu work) isn't needed any more, but every message still resends it, so
-   > it's slower and costs more, and a compaction can drop details at random. To switch, open a new
-   > thread in this folder and say: *"Read HANDOFF.md and continue."*
-   > **Or reply "continue"** and I'll keep going here (the extra context is just wasted, nothing
-   > breaks). If I don't hear back in 3 minutes, I'll continue here.
-3. **Wait up to 3 minutes** without blocking the user: start a background timer (e.g. a background
-   `sleep 180`) and end your turn. If the user answers first, do what they say (stop the timer). If the
-   timer fires with no answer, **continue the next milestone in this thread**. If your app can't wake
-   you after a timer, don't wait at all: post the recommendation and keep working.
-4. **Keep going the same way.** Notes stay current exactly as before; at the next milestone, repeat
-   steps 1–3. The recommendation is an option the user can take any time, not a gate.
-5. **If the user says it ahead of time** ("after this milestone / after X, let's start a new thread"):
-   finish X, update the notes, then **stop** and tell them exactly what to paste in the new thread.
-6. Some apps let you create the next-thread task yourself (a "chip"). If so, create it at step 2 so
-   switching is one click, and still continue after 3 minutes if it isn't clicked.
+2. **First milestone: suggest + wait 3 min.** Short and fun (template below). Start a background
+   timer (e.g. a background `sleep 180`) and end your turn.
+   - The user answers → do what they say (stop the timer).
+   - No answer → carry on with the next milestone here.
+3. **Second milestone: same again, 3 min.** Still no answer → **stop suggesting.** From now on just
+   work straight through like any agent: no pauses, no waits, notes still kept current.
+4. **The user asks ahead of time** ("new thread after X") → finish X, update the notes, **stop**, and
+   tell them what to paste.
+5. **A new thread starts the count fresh** (it follows steps 1–4 again).
+6. Your app can't wake you after a timer? Don't wait at all: post the suggestion and keep working.
+7. Your app can create the next-thread task itself (a "chip")? Create it in step 2/3 so switching is
+   one click; still carry on if it isn't clicked.
 
-A project's own `AGENTS.md` can override this (e.g. "always stop and ask at a milestone"); its rule
-wins in that project.
+**Message template, first time:**
+
+> 🏁 **Milestone 1 done!** Notes are saved.
+>
+> 💡 **Fresh thread?** This chat is mostly old history now. Every reply drags it along: slower, pricier.
+> - 🆕 **New thread:** open one here, say *"Read HANDOFF.md and continue"*
+> - ▶️ **Stay:** reply "continue" (nothing breaks, just extra baggage)
+>
+> ⏳ No reply in 3 min → I keep going here. *(📓 project-memory)*
+
+**Second time:** same, but the last line becomes:
+
+> ⏳ No reply in 3 min → I'll stop asking and just keep building. Say "new thread" any time.
+
+A project's own `AGENTS.md` can change any of this for that project; its rule wins there.
 
 ## 5. Promoting lessons to the skills library
 
@@ -98,5 +111,7 @@ user's library at `D:\mine\Agentics\Skills`.
   `LESSONS.md`).
 - At a milestone or the end of the work, **ask the user**: "Is it okay to generalize these into your
   skills library?" with the lessons one line each.
+- A general method or rule **the user** creates: add it to the right skill yourself (no need to ask),
+  tell them, and suggest pushing the library (public on GitHub) if it could help others.
 - On a yes, follow `D:\mine\Agentics\Skills\AGENTS.md`: right skill, generalized wording, merged
   rather than appended, changelog line.

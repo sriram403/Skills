@@ -2,6 +2,14 @@
 
 Newest first. One line per change: skill, what changed, which project it came from.
 
+## 2026-10-15: friendlier talk, two-strike new-thread rule, own folder per project
+
+- Global rules regrouped: talk short and a bit fun, name the skill behind a behaviour, own folder per
+  new project + ask about keeping storage inside it, user-created rules go straight into skills.
+- `project-memory` v3: suggest a new thread at most twice per thread (3-min wait each), then just
+  work; a new thread starts the count fresh; short, fun message template (the user).
+- MPG and blender-rel milestone rules now point to `project-memory` §4.
+
 ## 2026-10-15: project memory always on; new threads are a recommendation
 
 - Global rule 5: `project-memory` applies to every task bigger than a quick question, without asking.

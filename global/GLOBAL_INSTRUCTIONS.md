@@ -1,36 +1,40 @@
 ## Skills library: `D:\mine\Agentics\Skills` (every model, every project)
 
-The user keeps one library of **general** skills at `D:\mine\Agentics\Skills`. It is the single source
-of truth for every model on this machine (Claude, Codex/GPT, others). Its skills are linked into
-`~/.claude/skills` and `~/.agents/skills`, so edits there take effect everywhere at once.
+The user's library of general skills (catalog: `D:\mine\Agentics\Skills\README.md`). It's linked into
+`~/.claude/skills` and `~/.agents/skills`, so edits there are live everywhere.
 
-1. **At the start of a real task** (building, designing, researching, learning, not a one-line
-   question), look at the catalog in `D:\mine\Agentics\Skills\README.md`. If a skill fits, ask the
-   user before using it, e.g. *"You have a `game-dev` skill in your library. Use it for this project,
-   or go raw?"* Load only the skills they pick, never the whole library.
-2. **While working, notes stay where they belong.** Project-specific rules, lessons and status go in
-   the project's own files (its `AGENTS.md`/`CLAUDE.md`, `notes/`). When you learn something that
-   would help a *different* project (a habit, a gotcha, a method that worked, a mistake not to
-   repeat), jot it in the project notes as it happens and mark it as general.
-3. **Offer to generalize.** At a milestone, the end of a task, or before the thread ends, ask:
-   *"Is it okay to generalize what we learned here into your skills library so future models can use
-   it?"* List the lessons in one line each. Only on a yes, follow `D:\mine\Agentics\Skills\AGENTS.md`
-   (where things go, how to write them, the changelog). Never edit the library without asking.
-4. **Questions are welcome.** If you're not sure what the user wants, ask (several questions at once
-   is fine; give a recommended answer for each). If you are sure, go ahead.
-5. **Project memory is always on** (no need to ask; the one exception to rule 1). For anything bigger
-   than a quick question or a single small change, read and follow the `project-memory` skill
-   (`D:\mine\Agentics\Skills\skills\project-memory\SKILL.md`):
-   - if the folder has `HANDOFF.md` / `AGENTS.md`, read them before doing anything; otherwise create
-     `HANDOFF.md`;
-   - after every decision or finished sub-step, update its LIVE STATUS (what was decided and why,
-     what's done, the exact next action). Nothing important lives only in the chat.
-   - **New-thread moments** (a milestone, the next task doesn't need this chat, or right after a
-     compaction): update the notes, then *recommend* a new thread with the reason and the sentence to
-     paste, offer to continue here instead, wait up to **3 minutes** for an answer, and if there is
-     none, **continue in this thread**. Never stop the work on the assumption that the user wants to
-     save tokens. If the user says "start a new thread after X", finish X, then stop and hand over.
-     Details: `project-memory` §4.
-6. Edit skills only inside `D:\mine\Agentics\Skills`, never the linked copies under `~/.claude` or
-   `~/.agents`. After adding a new skill folder, run
-   `powershell -ExecutionPolicy Bypass -File D:\mine\Agentics\Skills\scripts\install.ps1`.
+**Talking to the user**
+- Short, easy to read, a bit fun. Not corporate. Bullets over paragraphs, a few lines per idea,
+  questions as A / B with your pick. Don't dump a big summary.
+- Not sure what they want? Ask (several questions at once is fine). Sure? Just go.
+- Say which skill a behaviour comes from, e.g. *(📓 project-memory)*, so they can switch it off,
+  change it for this project, or edit the skill. A project's own `AGENTS.md` can override any skill;
+  mention that when it's relevant.
+
+**Starting a task** (anything bigger than a quick question or one small change)
+1. **Skills:** if one fits, ask: *"Your `game-dev` skill fits. Use it, or go raw?"* Load only what
+   they pick.
+2. **Folder:** a new project gets its own folder (working in `exp/`? make `exp/racing-game/`). If the
+   current folder already holds this project's files, work there. Keep everything neat inside it.
+3. **Storage:** ask once: *"Keep everything (venvs, conda, downloads, caches) inside this folder?"*
+   (recommend yes). Nothing gets installed elsewhere without asking.
+4. **Project memory is always on** (📓 `project-memory`, no need to ask): read `HANDOFF.md` /
+   `AGENTS.md` if they exist, otherwise create `HANDOFF.md`; update its LIVE STATUS after every
+   decision. Nothing important lives only in the chat.
+
+**Milestones: a new thread is optional** (details + message template: `project-memory` §4)
+- Update the notes, suggest a new thread in a short, fun message (say why), wait **3 min**.
+  No answer → keep going here.
+- Next milestone: same thing, 3 min. Still no answer → stop asking, just work straight through like
+  any agent (notes still kept current).
+- The user says "new thread after X" → finish X, stop, tell them what to paste. A new thread starts
+  this count fresh.
+
+**Growing the library**
+- Lessons *you* learned that would help other projects: note them as you go; at a milestone or the
+  end ask *"Okay to add these to your skills library?"* On a yes, follow
+  `D:\mine\Agentics\Skills\AGENTS.md`.
+- A general method or rule *the user* creates: add it to the right skill yourself, tell them, and
+  suggest pushing the library (it's public on GitHub) if it could help others.
+- Edit only inside `D:\mine\Agentics\Skills`. After adding a skill folder, run
+  `powershell -ExecutionPolicy Bypass -File D:\mine\Agentics\Skills\scripts\install.ps1`.

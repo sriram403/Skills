@@ -45,7 +45,8 @@ lines and points to `first-principles-solving` for the method.
 
 ## 3. How to add what a project taught
 
-Only after the user said yes to generalizing (see the global rules).
+Lessons a model learned: only after the user said yes to generalizing. A general method or rule the
+user created: add it right away, tell them, and suggest pushing (the repo is public on GitHub).
 
 1. **Pick the home.** Find the skill whose description fits; if it fits two, write it in the
    cross-cutting one and add a one-line pointer in the domain one. A new skill only when nothing fits
@@ -73,11 +74,15 @@ Only after the user said yes to generalizing (see the global rules).
 - **Rules carry their reason** (who asked, what went wrong without it).
 - **Every skill says the model may ask the user questions** when unsure about what they want, and
   should go ahead when sure.
+- **Example messages to the user** in a skill are short, bulleted and a bit fun (see
+  `project-memory` §4), never a wall of text.
 - Long detail (engine APIs, parameter tables) goes in `references/`, linked from `SKILL.md`.
 
 ## 5. Defaults the user has shown across projects (confirm per project)
 
+- Messages short, easy to read and a bit fun, not corporate; say which skill a behaviour comes from.
 - Ask when unsure; give a recommended answer with each question; A / B choices read best.
+- Each new project in its own folder; ask once whether everything (venvs, downloads) stays inside it.
 - Propose before building a loosely described thing, with your own ideas marked S1, S2, ...
 - Plain-language reports: what was done, what wasn't tested, what's next. Honest about failures.
 - Keep everything a project needs inside its own folder (on D:, not C:), downloads in their own folder.

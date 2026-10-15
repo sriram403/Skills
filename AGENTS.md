@@ -83,6 +83,7 @@ user created: add it right away, tell them, and suggest pushing (the repo is pub
 - Messages short, easy to read and a bit fun, not corporate; say which skill a behaviour comes from.
 - Ask when unsure; give a recommended answer with each question; A / B choices read best.
 - Each new project in its own folder; ask once whether everything (venvs, downloads) stays inside it.
+- No git (or backup) on the files? Offer to set it up before the first edit.
 - Propose before building a loosely described thing, with your own ideas marked S1, S2, ...
 - Plain-language reports: what was done, what wasn't tested, what's next. Honest about failures.
 - Keep everything a project needs inside its own folder (on D:, not C:), downloads in their own folder.

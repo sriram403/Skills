@@ -20,7 +20,11 @@ The user's library of general skills (catalog: `{{SKILLS_ROOT}}\README.md`). It'
    current folder already holds this project's files, work there. Keep everything neat inside it.
 3. **Storage:** ask once: *"Keep everything (venvs, conda, downloads, caches) inside this folder?"*
    (recommend yes). Nothing gets installed elsewhere without asking.
-4. **Project memory is always on** (📓 `project-memory`, no need to ask): read `HANDOFF.md` /
+4. **Saving first:** new *or* existing project, before touching files: no git (or other backup)
+   covering them? Ask: *"No git here yet. Set one up first so every change can be undone?"*
+   (recommend yes: `git init` + a `.gitignore` for venvs/downloads/caches + a first commit, local
+   only). Never push or add a remote without asking.
+5. **Project memory is always on** (📓 `project-memory`, no need to ask): read `HANDOFF.md` /
    `AGENTS.md` if they exist, otherwise create `HANDOFF.md`; update its LIVE STATUS after every
    decision. Nothing important lives only in the chat.
 

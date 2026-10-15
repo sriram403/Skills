@@ -22,6 +22,13 @@ project, without asking first (the user's global rule). For small tasks, no file
 everything (venvs, conda, downloads, caches) should stay inside that folder (recommend yes). Then
 create `HANDOFF.md` (templates below).
 
+**Saving comes first** (the user asked for this): new or existing project, if the files you'll work
+on have no git (or other backup), ask before editing anything: *"No git here yet. Set one up first so
+every change can be undone?"* Recommend yes: `git init`, a `.gitignore` for venvs, downloads, caches
+and big generated files, then a first commit of the untouched files. Local only; no remote or push
+without asking. If they say no, note it in `HANDOFF.md` and be extra careful (copy a file before a
+risky edit).
+
 ## 1. Why
 
 Models don't learn while they work and threads end without warning (compaction drops detail by

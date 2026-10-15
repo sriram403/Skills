@@ -4,6 +4,8 @@ Newest first. One line per change: skill, what changed, which project it came fr
 
 ## 2026-10-15: copy-paste hand-off prompt
 
+- Saving first: if a new or existing project has no git/backup, offer to set it up before editing
+  (global rules, `project-memory`, README; the user).
 - `project-memory` v4: every new-thread suggestion ends with a clear-cut, copy-paste hand-off prompt
   (TASK / DONE / SCOPE / NOW / KEY RULES / CONTEXT) using full absolute paths (the user, from the
   Ellie build hand-offs).

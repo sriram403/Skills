@@ -27,6 +27,8 @@ transfers gets generalized back into this library.
 - 📁 **Own folder:** a new project gets its own folder (`exp/racing-game/`); an existing project
   folder is reused.
 - 📦 **Storage:** it asks once whether venvs, conda, downloads and caches stay inside that folder.
+- 💾 **Saving first:** no git in the folder? It offers to set one up (local, with a first commit)
+  before touching any file, for new and existing projects alike.
 - 📓 **Notes from minute one:** `HANDOFF.md` with a LIVE STATUS, updated after every decision, so
   nothing important lives only in the chat.
 

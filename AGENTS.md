@@ -60,8 +60,8 @@ Only after the user said yes to generalizing (see the global rules).
 5. **Keep the catalog in step:** a new skill or a changed purpose → update the table in `README.md`.
 6. **New skill folder:** copy `templates/SKILL.md`, then run
    `powershell -ExecutionPolicy Bypass -File scripts\install.ps1` so Claude and Codex see it.
-7. **Git:** commit with a plain message. Push only when the user asks. Never mention any AI tool in
-   commits, PRs or files (the user's global rule).
+7. **Git:** commit with a plain message. Push only when the user asks. Credit the AI tool that helped
+   (e.g. a `Co-Authored-By` trailer), truthfully (the user's global rule).
 
 ## 4. Writing a skill
 

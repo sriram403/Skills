@@ -2,6 +2,12 @@
 
 Newest first. One line per change: skill, what changed, which project it came from.
 
+## 2026-10-15: new threads know the skills
+
+- `project-memory` v5 + global rules: the hand-off prompt and HANDOFF.md list the skills in use
+  (full paths); a new thread loads them, and any skill the user names ("research X"), without asking
+  (the user).
+
 ## 2026-10-15: copy-paste hand-off prompt
 
 - Saving first: if a new or existing project has no git/backup, offer to set it up before editing

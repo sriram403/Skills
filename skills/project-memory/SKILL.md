@@ -5,10 +5,11 @@ description: How to keep a project's notes so any new thread or any model (Claud
 
 # Project memory: notes that let any model carry on
 
-**Version: v4 (2026-10-15).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
+**Version: v5 (2026-10-15).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
 were what let a new thread (or another model) continue with no loss. v2: always on for every
 project. v3: new threads are suggested twice, then the model just works (§4); own folder per project. v4: every new-thread
-suggestion ends with a copy-paste hand-off prompt using full paths (§4).
+suggestion ends with a copy-paste hand-off prompt using full paths (§4). v5: the hand-off prompt and HANDOFF.md name the skills in use, so a new
+thread loads them without asking (§4).
 
 **You may ask the user questions at any point**, e.g. which notes they want for a small project. If
 you're sure, go ahead. Keep messages to the user short and a bit fun, and say *(📓 project-memory)*
@@ -119,6 +120,10 @@ make a "chip" or next-thread task, put the same text in it. Rules:
 - **Clear-cut, not chatty:** written as orders to the next model, so it can start without asking.
 - **Self-contained:** it works even if the new model never saw this chat; HANDOFF.md holds the
   detail, the prompt points to it and repeats only what must not be missed.
+- **Name the skills** (the user asked for this): a `SKILLS:` line with the full path of each
+  `SKILL.md` in use (e.g. `research`, `testing-and-verification`), plus the library catalog. The new
+  thread loads them at once, no "use it or go raw?" question, and knows the rest exist if the user
+  says "research X" later.
 
 Shape (fill in, cut lines that don't apply, keep it to one screen):
 
@@ -126,6 +131,8 @@ Shape (fill in, cut lines that don't apply, keep it to one screen):
 TASK: You are continuing <project, one line>. Read <full path>\HANDOFF.md first and follow it
 exactly: its read order (<full paths of the other notes, with the sections that matter>), then
 resume from its LIVE STATUS.
+SKILLS: load now: <full path>\skills\<name>\SKILL.md, ... (always project-memory). Other skills:
+<library>\README.md; when I name one or its trigger ("research X"), load it without asking.
 DONE: <milestones done, with the proof file, e.g. renders/sheet_G7.jpg>. Honest state: <what is
 still not right>.
 SCOPE: <user decisions that limit the work>.

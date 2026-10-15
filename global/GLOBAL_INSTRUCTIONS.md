@@ -14,8 +14,13 @@ The user's library of general skills (catalog: `{{SKILLS_ROOT}}\README.md`). It'
   - **B) everywhere:** edit the skill itself in the library, so every project gets it.
 
 **Starting a task** (anything bigger than a quick question or one small change)
-1. **Skills:** if one fits, ask: *"Your `game-dev` skill fits. Use it, or go raw?"* Load only what
-   they pick.
+1. **Skills:** the catalog is `{{SKILLS_ROOT}}\README.md`; each skill is
+   `{{SKILLS_ROOT}}\skills\<name>\SKILL.md`.
+   - The user names a skill or its trigger ("research X", "first principles"), or the hand-off
+     prompt / `HANDOFF.md` lists skills → **load them straight away**, no question.
+   - Otherwise, if one fits, ask: *"Your `game-dev` skill fits. Use it, or go raw?"* Load only what
+     they pick.
+   - Write the skills in use into `HANDOFF.md` so the next thread loads the same ones.
 2. **Folder:** a new project gets its own folder (working in `exp/`? make `exp/racing-game/`). If the
    current folder already holds this project's files, work there. Keep everything neat inside it.
 3. **Storage:** ask once: *"Keep everything (venvs, conda, downloads, caches) inside this folder?"*

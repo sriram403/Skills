@@ -3,7 +3,8 @@
 You are continuing <project> in `<absolute path>`.
 1. Read `AGENTS.md` (how we work here).
 2. Skim `notes/LESSONS.md` (gotchas, mistake log).
-3. Resume from **LIVE STATUS** below. Update it after each sub-step; the other notes at milestones.
+3. Load the skills in use (read each `SKILL.md`): <name: full path\skills\<name>\SKILL.md, ...>.
+4. Resume from **LIVE STATUS** below. Update it after each sub-step; the other notes at milestones.
 
 ---
 

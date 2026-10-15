@@ -18,6 +18,19 @@ of truth for every model on this machine (Claude, Codex/GPT, others). Its skills
    (where things go, how to write them, the changelog). Never edit the library without asking.
 4. **Questions are welcome.** If you're not sure what the user wants, ask (several questions at once
    is fine; give a recommended answer for each). If you are sure, go ahead.
-5. Edit skills only inside `D:\mine\Agentics\Skills`, never the linked copies under `~/.claude` or
+5. **Project memory is always on** (no need to ask; the one exception to rule 1). For anything bigger
+   than a quick question or a single small change, read and follow the `project-memory` skill
+   (`D:\mine\Agentics\Skills\skills\project-memory\SKILL.md`):
+   - if the folder has `HANDOFF.md` / `AGENTS.md`, read them before doing anything; otherwise create
+     `HANDOFF.md`;
+   - after every decision or finished sub-step, update its LIVE STATUS (what was decided and why,
+     what's done, the exact next action). Nothing important lives only in the chat.
+   - **New-thread moments** (a milestone, the next task doesn't need this chat, or right after a
+     compaction): update the notes, then *recommend* a new thread with the reason and the sentence to
+     paste, offer to continue here instead, wait up to **3 minutes** for an answer, and if there is
+     none, **continue in this thread**. Never stop the work on the assumption that the user wants to
+     save tokens. If the user says "start a new thread after X", finish X, then stop and hand over.
+     Details: `project-memory` §4.
+6. Edit skills only inside `D:\mine\Agentics\Skills`, never the linked copies under `~/.claude` or
    `~/.agents`. After adding a new skill folder, run
    `powershell -ExecutionPolicy Bypass -File D:\mine\Agentics\Skills\scripts\install.ps1`.

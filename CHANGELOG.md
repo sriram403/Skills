@@ -2,6 +2,14 @@
 
 Newest first. One line per change: skill, what changed, which project it came from.
 
+## 2026-10-15: project memory always on; new threads are a recommendation
+
+- Global rule 5: `project-memory` applies to every task bigger than a quick question, without asking.
+- `project-memory` v2: §4 new-thread moments: update notes, recommend a new thread with the reason,
+  offer to continue, wait 3 minutes, then continue here; stop only when the user asked for it
+  ahead of time (the user, after discussing context overfill).
+- Attribution: credit AI tools fairly (the user changed the rule).
+
 ## 2026-10-15: the library becomes the single source for every model
 
 - Library: `AGENTS.md`/`CLAUDE.md` protocol, `global/GLOBAL_INSTRUCTIONS.md` (ask before using a

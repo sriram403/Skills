@@ -1,15 +1,20 @@
 ---
 name: project-memory
-description: How to keep a project's notes so any new thread or any model (Claude, GPT/Codex, others) can continue instantly, and so lessons survive between projects - the hand-off file with a LIVE STATUS, the mistake log (assumed → reality → fix → habit), lessons written the moment they happen, AGENTS.md and CLAUDE.md kept in step, "update the md files", milestone check-ins, short threads, and promoting general lessons to the user's skills library. Use when starting or setting up any multi-session project, when the user says "update the md files", "hand over", "new thread", "write it down", "note this", or at a milestone.
+description: How to keep a project's notes so any new thread or any model (Claude, GPT/Codex, others) can continue instantly, and so lessons survive between projects - the hand-off file with a LIVE STATUS, the mistake log (assumed → reality → fix → habit), lessons written the moment they happen, AGENTS.md and CLAUDE.md kept in step, "update the md files", milestone check-ins, short threads, and promoting general lessons to the user's skills library. Use when starting or setting up any multi-session project, when the user says "update the md files", "hand over", "new thread", "write it down", "note this", or at a milestone. Always on for any task bigger than a quick question (the user's global rule), including the new-thread recommendation with a 3-minute wait.
 ---
 
 # Project memory: notes that let any model carry on
 
-**Version: v1 (2026-10-15).** From the Finding Naresh game and the Ellie 3D build, where the notes
-were what let a new thread (or another model) continue with no loss.
+**Version: v2 (2026-10-15).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
+were what let a new thread (or another model) continue with no loss. v2: always on for every
+project (global rule), and the new-thread moment as a recommendation with a 3-minute wait, never a
+stop (§4).
 
-**You may ask the user questions at any point**, e.g. which notes they want for a small project, or
-whether to continue in this thread or a new one. If you're sure, go ahead.
+**You may ask the user questions at any point**, e.g. which notes they want for a small project. If
+you're sure, go ahead.
+
+**When this applies:** every task bigger than a quick question or a single small change, in any
+project, without asking first (the user's global rule). For small tasks, no files.
 
 ## 1. Why
 
@@ -47,17 +52,45 @@ Templates: [`templates/`](templates/) (AGENTS.md, HANDOFF.md, LESSONS.md).
 - **Say where a thing lives:** which folder and branch hold a part. Nothing is "ready" until it's in
   the copy the user runs.
 - **Commit small and often** (locally); push only per the project's rules or when the user asks.
-- **Short threads with good notes beat one long thread.** At a natural break (a milestone), update all
-  notes, then either continue here (if this thread's context really matters) or hand over to a new
-  thread whose first instruction is "read `HANDOFF.md` first and follow it". If unsure, ask the user
-  once: "continue here, or a new thread?" Some apps let you create the next-thread task yourself;
-  if so, do that and tell the user in one line.
 - **Notes before the context fills:** if a thread is getting long, write everything worthwhile into
-  the files before a compaction.
+  the files before a compaction. New-thread moments: §4.
 - **Reports** at a hand-off, in plain language: (a) what couldn't be tested, (b) what's done, (c) the
   next step.
 
-## 4. Promoting lessons to the skills library
+## 4. New-thread moments: recommend, wait 3 minutes, never stop the work
+
+Short threads with good notes beat one long thread, but the user decides: they may not care about
+tokens. So a new thread is a **recommendation, never a stop**.
+
+**When:** a milestone is done; the next task doesn't need this chat's history; or you were just
+compacted (you see a summary in place of the earlier conversation). You can't measure how full your
+context is, so use these signals rather than guessing a percentage.
+
+**Flow:**
+1. **Update every note first** (HANDOFF LIVE STATUS with the exact next action, TODO, lessons), so a
+   new thread could start this second.
+2. **Tell the user, short, with the reason and both options**, e.g.:
+   > Milestone 2 is done and the notes are up to date. **I recommend a new thread** for milestone 3:
+   > most of this chat (the menu work) isn't needed any more, but every message still resends it, so
+   > it's slower and costs more, and a compaction can drop details at random. To switch, open a new
+   > thread in this folder and say: *"Read HANDOFF.md and continue."*
+   > **Or reply "continue"** and I'll keep going here (the extra context is just wasted, nothing
+   > breaks). If I don't hear back in 3 minutes, I'll continue here.
+3. **Wait up to 3 minutes** without blocking the user: start a background timer (e.g. a background
+   `sleep 180`) and end your turn. If the user answers first, do what they say (stop the timer). If the
+   timer fires with no answer, **continue the next milestone in this thread**. If your app can't wake
+   you after a timer, don't wait at all: post the recommendation and keep working.
+4. **Keep going the same way.** Notes stay current exactly as before; at the next milestone, repeat
+   steps 1–3. The recommendation is an option the user can take any time, not a gate.
+5. **If the user says it ahead of time** ("after this milestone / after X, let's start a new thread"):
+   finish X, update the notes, then **stop** and tell them exactly what to paste in the new thread.
+6. Some apps let you create the next-thread task yourself (a "chip"). If so, create it at step 2 so
+   switching is one click, and still continue after 3 minutes if it isn't clicked.
+
+A project's own `AGENTS.md` can override this (e.g. "always stop and ask at a milestone"); its rule
+wins in that project.
+
+## 5. Promoting lessons to the skills library
 
 Project notes keep project lessons. Lessons that would help a *different* project belong in the
 user's library at `D:\mine\Agentics\Skills`.

@@ -22,4 +22,4 @@ mistake log before anything similar).
 - `notes/LESSONS.md` (lessons + mistake log)
 - `AGENTS.md` / `CLAUDE.md` (rules)
 - <design pages, test sheets, ...>
-- General lessons: offer to add them to `D:\mine\Agentics\Skills` (ask first).
+- General lessons: offer to add them to the user's skills library (ask first).

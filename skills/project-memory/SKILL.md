@@ -106,12 +106,12 @@ A project's own `AGENTS.md` can change any of this for that project; its rule wi
 ## 5. Promoting lessons to the skills library
 
 Project notes keep project lessons. Lessons that would help a *different* project belong in the
-user's library at `D:\mine\Agentics\Skills`.
+user's skills library (its path is in the global rules).
 - While working, mark such lessons as general (e.g. a "General" tag or a short list at the end of
   `LESSONS.md`).
 - At a milestone or the end of the work, **ask the user**: "Is it okay to generalize these into your
   skills library?" with the lessons one line each.
 - A general method or rule **the user** creates: add it to the right skill yourself (no need to ask),
   tell them, and suggest pushing the library (public on GitHub) if it could help others.
-- On a yes, follow `D:\mine\Agentics\Skills\AGENTS.md`: right skill, generalized wording, merged
+- On a yes, follow that library's `AGENTS.md`: right skill, generalized wording, merged
   rather than appended, changelog line.

@@ -4,6 +4,10 @@ Newest first. One line per change: skill, what changed, which project it came fr
 
 ## 2026-10-15: friendlier talk, two-strike new-thread rule, own folder per project
 
+- Changing a skill: the agent asks "just this project (its AGENTS.md) or everywhere (the skill)?".
+- README rewritten for GitHub visitors (behaviour, changing skills, install); install.ps1 fills in
+  the clone's real path, so the library works from any folder.
+
 - Global rules regrouped: talk short and a bit fun, name the skill behind a behaviour, own folder per
   new project + ask about keeping storage inside it, user-created rules go straight into skills.
 - `project-memory` v3: suggest a new thread at most twice per thread (3-min wait each), then just

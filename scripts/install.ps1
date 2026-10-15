@@ -55,9 +55,9 @@ foreach ($target in $targets) {
     }
 }
 
-$start = '<!-- skills-library:start (managed by D:\mine\Agentics\Skills\scripts\install.ps1; edit global\GLOBAL_INSTRUCTIONS.md there instead) -->'
+$start = "<!-- skills-library:start (managed by $root\scripts\install.ps1; edit global\GLOBAL_INSTRUCTIONS.md there instead) -->"
 $end   = '<!-- skills-library:end -->'
-$body  = ([IO.File]::ReadAllText($globalMd)).Trim()
+$body  = ([IO.File]::ReadAllText($globalMd)).Trim().Replace('{{SKILLS_ROOT}}', $root)
 $block = "$start`n$body`n$end"
 $utf8  = New-Object System.Text.UTF8Encoding($false)
 

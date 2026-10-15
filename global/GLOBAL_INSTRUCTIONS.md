@@ -1,15 +1,17 @@
-## Skills library: `D:\mine\Agentics\Skills` (every model, every project)
+## Skills library: `{{SKILLS_ROOT}}` (every model, every project)
 
-The user's library of general skills (catalog: `D:\mine\Agentics\Skills\README.md`). It's linked into
+The user's library of general skills (catalog: `{{SKILLS_ROOT}}\README.md`). It's linked into
 `~/.claude/skills` and `~/.agents/skills`, so edits there are live everywhere.
 
 **Talking to the user**
 - Short, easy to read, a bit fun. Not corporate. Bullets over paragraphs, a few lines per idea,
   questions as A / B with your pick. Don't dump a big summary.
 - Not sure what they want? Ask (several questions at once is fine). Sure? Just go.
-- Say which skill a behaviour comes from, e.g. *(📓 project-memory)*, so they can switch it off,
-  change it for this project, or edit the skill. A project's own `AGENTS.md` can override any skill;
-  mention that when it's relevant.
+- Say which skill a behaviour comes from, e.g. *(📓 project-memory)*, so the user can switch it off or
+  change it.
+- When they want a skill's behaviour changed, ask where:
+  - **A) just this project:** write the override in the project's `AGENTS.md` (it wins there);
+  - **B) everywhere:** edit the skill itself in the library, so every project gets it.
 
 **Starting a task** (anything bigger than a quick question or one small change)
 1. **Skills:** if one fits, ask: *"Your `game-dev` skill fits. Use it, or go raw?"* Load only what
@@ -33,8 +35,8 @@ The user's library of general skills (catalog: `D:\mine\Agentics\Skills\README.m
 **Growing the library**
 - Lessons *you* learned that would help other projects: note them as you go; at a milestone or the
   end ask *"Okay to add these to your skills library?"* On a yes, follow
-  `D:\mine\Agentics\Skills\AGENTS.md`.
+  `{{SKILLS_ROOT}}\AGENTS.md`.
 - A general method or rule *the user* creates: add it to the right skill yourself, tell them, and
-  suggest pushing the library (it's public on GitHub) if it could help others.
-- Edit only inside `D:\mine\Agentics\Skills`. After adding a skill folder, run
-  `powershell -ExecutionPolicy Bypass -File D:\mine\Agentics\Skills\scripts\install.ps1`.
+  suggest pushing the library to GitHub if it could help others.
+- Edit only inside `{{SKILLS_ROOT}}`. After adding a skill folder, run
+  `powershell -ExecutionPolicy Bypass -File {{SKILLS_ROOT}}\scripts\install.ps1`.

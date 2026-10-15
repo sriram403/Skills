@@ -38,7 +38,9 @@ transfers gets generalized back into this library.
 **At milestones**
 - 🏁 Saves the notes and *suggests* a fresh thread (old chat = slower, pricier replies), then waits 3 min.
 - No answer → keeps going. Second milestone: same. Still no answer → stops asking and just builds.
-- Say *"new thread after X"* and it finishes X, stops, and tells you what to paste.
+- Say *"new thread after X"* and it finishes X and stops.
+- 📋 Every suggestion ends with a **ready-to-paste prompt** (TASK / DONE / NOW / KEY RULES / CONTEXT)
+  with full paths to `HANDOFF.md` and the notes, so the new thread starts right away.
 
 **Growing the library**
 - 🧠 Lessons the agent learned: it asks *"Okay to add these to your skills library?"* before writing.

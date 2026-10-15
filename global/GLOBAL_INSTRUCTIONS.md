@@ -29,8 +29,9 @@ The user's library of general skills (catalog: `{{SKILLS_ROOT}}\README.md`). It'
   No answer → keep going here.
 - Next milestone: same thing, 3 min. Still no answer → stop asking, just work straight through like
   any agent (notes still kept current).
-- The user says "new thread after X" → finish X, stop, tell them what to paste. A new thread starts
-  this count fresh.
+- The user says "new thread after X" → finish X, stop. A new thread starts this count fresh.
+- Every new-thread suggestion ends with a **copy-paste hand-off prompt** in a code block: clear-cut
+  orders, **full absolute path** to `HANDOFF.md` and every note it names (shape: `project-memory` §4).
 
 **Growing the library**
 - Lessons *you* learned that would help other projects: note them as you go; at a milestone or the

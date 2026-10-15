@@ -5,9 +5,10 @@ description: How to keep a project's notes so any new thread or any model (Claud
 
 # Project memory: notes that let any model carry on
 
-**Version: v3 (2026-10-15).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
+**Version: v4 (2026-10-15).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
 were what let a new thread (or another model) continue with no loss. v2: always on for every
-project. v3: new threads are suggested twice, then the model just works (§4); own folder per project.
+project. v3: new threads are suggested twice, then the model just works (§4); own folder per project. v4: every new-thread
+suggestion ends with a copy-paste hand-off prompt using full paths (§4).
 
 **You may ask the user questions at any point**, e.g. which notes they want for a small project. If
 you're sure, go ahead. Keep messages to the user short and a bit fun, and say *(📓 project-memory)*
@@ -81,7 +82,7 @@ context is, so use these signals rather than guessing a percentage.
 3. **Second milestone: same again, 3 min.** Still no answer → **stop suggesting.** From now on just
    work straight through like any agent: no pauses, no waits, notes still kept current.
 4. **The user asks ahead of time** ("new thread after X") → finish X, update the notes, **stop**, and
-   tell them what to paste.
+   give them the hand-off prompt (below).
 5. **A new thread starts the count fresh** (it follows steps 1–4 again).
 6. Your app can't wake you after a timer? Don't wait at all: post the suggestion and keep working.
 7. Your app can create the next-thread task itself (a "chip")? Create it in step 2/3 so switching is
@@ -92,14 +93,43 @@ context is, so use these signals rather than guessing a percentage.
 > 🏁 **Milestone 1 done!** Notes are saved.
 >
 > 💡 **Fresh thread?** This chat is mostly old history now. Every reply drags it along: slower, pricier.
-> - 🆕 **New thread:** open one here, say *"Read HANDOFF.md and continue"*
+> - 🆕 **New thread:** open one, paste the prompt below 👇
 > - ▶️ **Stay:** reply "continue" (nothing breaks, just extra baggage)
 >
 > ⏳ No reply in 3 min → I keep going here. *(📓 project-memory)*
+>
+> *(then the hand-off prompt, in a code block)*
 
 **Second time:** same, but the last line becomes:
 
 > ⏳ No reply in 3 min → I'll stop asking and just keep building. Say "new thread" any time.
+
+**The hand-off prompt** (the user asked for this). Every time you suggest or start a new thread, end
+the message with a ready-to-paste prompt in a fenced code block (one click to copy). If your app can
+make a "chip" or next-thread task, put the same text in it. Rules:
+- **Full absolute paths** for every file: `D:\work\exp\racing-game\HANDOFF.md`, never just
+  `HANDOFF.md` (the new thread may open in a different folder).
+- **Clear-cut, not chatty:** written as orders to the next model, so it can start without asking.
+- **Self-contained:** it works even if the new model never saw this chat; HANDOFF.md holds the
+  detail, the prompt points to it and repeats only what must not be missed.
+
+Shape (fill in, cut lines that don't apply, keep it to one screen):
+
+```
+TASK: You are continuing <project, one line>. Read <full path>\HANDOFF.md first and follow it
+exactly: its read order (<full paths of the other notes, with the sections that matter>), then
+resume from its LIVE STATUS.
+DONE: <milestones done, with the proof file, e.g. renders/sheet_G7.jpg>. Honest state: <what is
+still not right>.
+SCOPE: <user decisions that limit the work>.
+NOW: stage <X>, as LIVE STATUS "Next action" says: (1) ... (2) ... (3) gate: <command>, record the
+verdict, milestone check-in.
+KEY RULES: <the 5-10 rules a new model is most likely to break: how to judge done, what to measure
+first, tools allowed, where files go, loop limit, what must stay open/running and the exact command
+to start it>. Update HANDOFF.md LIVE STATUS after each sub-step, the other notes at milestones.
+CONTEXT: <2-4 lines: tools/engine/versions, what this thread changed and in which files>.
+<Shared notes folder for parallel sessions, if any: full path.>
+```
 
 A project's own `AGENTS.md` can change any of this for that project; its rule wins there.
 

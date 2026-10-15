@@ -2,6 +2,12 @@
 
 Newest first. One line per change: skill, what changed, which project it came from.
 
+## 2026-10-15: copy-paste hand-off prompt
+
+- `project-memory` v4: every new-thread suggestion ends with a clear-cut, copy-paste hand-off prompt
+  (TASK / DONE / SCOPE / NOW / KEY RULES / CONTEXT) using full absolute paths (the user, from the
+  Ellie build hand-offs).
+
 ## 2026-10-15: friendlier talk, two-strike new-thread rule, own folder per project
 
 - Changing a skill: the agent asks "just this project (its AGENTS.md) or everywhere (the skill)?".

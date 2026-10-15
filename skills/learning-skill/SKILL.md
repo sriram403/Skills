@@ -7,6 +7,8 @@ description: Build a complete, visual, interactive learning app (course + hands-
 
 **Mission:** Given a topic (and optionally source materials), build a self-contained learning app so the user can understand the topic end to end — everything the sources say, and everything they silently assume — well enough to hold a real conversation with a 10+ year expert, and to reason about it themselves.
 
+**You may ask the user questions at any point** (Step 0 is all about it); if you're sure, go ahead. Related: [`research`](../research/SKILL.md) (how to research the topic itself), [`first-principles-solving`](../first-principles-solving/SKILL.md), [`testing-and-verification`](../testing-and-verification/SKILL.md).
+
 Two builds prove the pattern (look at them if they exist on this machine; don't depend on them):
 - `D:\mine\Agentics\T3_Code_Works\music_understanding\playground\` — music theory taught *on a real song* (studio + story-driven academy with tasks the app checks automatically).
 - `D:\mine\jags\Learning\basics\lexbolt_academy\` — two business PDFs (vehicle regulation + AI strategy) taught from zero: 29 chapters, 13 labs, every PDF page explained, 231-term glossary.

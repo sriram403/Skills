@@ -2,6 +2,12 @@
 
 Newest first. One line per change: skill, what changed, which project it came from.
 
+## 2026-10-16: real timer before "I'll wait"
+
+- `project-memory` v6 + global rules: start the 3-min timer as a tool call before the new-thread
+  message; no timer tool → never claim to wait (the user, after a model promised a wait with no
+  timer).
+
 ## 2026-10-15: new threads know the skills
 
 - `project-memory` v5 + global rules: the hand-off prompt and HANDOFF.md list the skills in use

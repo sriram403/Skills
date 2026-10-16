@@ -36,6 +36,9 @@ The user's library of general skills (catalog: `{{SKILLS_ROOT}}\README.md`). It'
 **Milestones: a new thread is optional** (details + message template: `project-memory` §4)
 - Update the notes, suggest a new thread in a short, fun message (say why), wait **3 min**.
   No answer → keep going here.
+- **Timer first, then the message:** start a real 3-min timer with a tool call (Claude Code: Bash,
+  `run_in_background: true`, `sleep 180`) *before* writing "I'll wait". No timer tool → don't
+  claim to wait; post the suggestion and keep working.
 - Next milestone: same thing, 3 min. Still no answer → stop asking, just work straight through like
   any agent (notes still kept current).
 - The user says "new thread after X" → finish X, stop. A new thread starts this count fresh.

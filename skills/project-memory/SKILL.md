@@ -5,11 +5,12 @@ description: How to keep a project's notes so any new thread or any model (Claud
 
 # Project memory: notes that let any model carry on
 
-**Version: v5 (2026-10-15).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
+**Version: v6 (2026-10-16).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
 were what let a new thread (or another model) continue with no loss. v2: always on for every
 project. v3: new threads are suggested twice, then the model just works (§4); own folder per project. v4: every new-thread
 suggestion ends with a copy-paste hand-off prompt using full paths (§4). v5: the hand-off prompt and HANDOFF.md name the skills in use, so a new
-thread loads them without asking (§4).
+thread loads them without asking (§4). v6: start a real timer before saying "I'll wait 3 min";
+no timer tool, no waiting claim (§4).
 
 **You may ask the user questions at any point**, e.g. which notes they want for a small project. If
 you're sure, go ahead. Keep messages to the user short and a bit fun, and say *(📓 project-memory)*
@@ -83,10 +84,16 @@ context is, so use these signals rather than guessing a percentage.
 **Flow (per thread):**
 1. **Update every note first** (HANDOFF LIVE STATUS with the exact next action, TODO, lessons), so a
    new thread could start this second.
-2. **First milestone: suggest + wait 3 min.** Short and fun (template below). Start a background
-   timer (e.g. a background `sleep 180`) and end your turn.
-   - The user answers → do what they say (stop the timer).
-   - No answer → carry on with the next milestone here.
+2. **First milestone: suggest + wait 3 min. Timer first, message second** (the user asked for this
+   after a model said "I'll wait 3 minutes" with no timer, so nothing ever woke it).
+   - **Start the timer as a real tool call before you write the message.** Claude Code: the Bash
+     tool with `run_in_background: true` and `sleep 180` (it wakes you when it ends; a foreground
+     sleep is blocked). Other apps: whatever background task or scheduled wake-up they have.
+   - Only once the timer is running, send the message and end your turn.
+   - **No timer tool?** Never write "I'll wait". Use step 6 instead.
+   - The user answers first → do what they say (stop the timer if you can; if it fires later,
+     ignore it).
+   - The timer fires with no answer → carry on with the next milestone here.
 3. **Second milestone: same again, 3 min.** Still no answer → **stop suggesting.** From now on just
    work straight through like any agent: no pauses, no waits, notes still kept current.
 4. **The user asks ahead of time** ("new thread after X") → finish X, update the notes, **stop**, and

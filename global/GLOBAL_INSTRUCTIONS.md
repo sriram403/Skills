@@ -21,6 +21,18 @@ The user's library of general skills (catalog: `{{SKILLS_ROOT}}\README.md`). It'
    - Otherwise, if one fits, ask: *"Your `game-dev` skill fits. Use it, or go raw?"* Load only what
      they pick.
    - Write the skills in use into `HANDOFF.md` so the next thread loads the same ones.
+   - **App skills** (`{{SKILLS_ROOT}}\apps\<app>\SKILL.md`, listed in
+     `{{SKILLS_ROOT}}\apps\README.md`) are full records of apps already built: what each is, how it
+     was built on PC and phone, its tests and every lesson. **Private:** `apps/` has its own local
+     git; never push it, add a remote, or copy it into the public library unless the user asks.
+     - **Every new or existing project, at the start:** read the `apps\README.md` table and check
+       whether any of those apps matches what we're building today (same kind of app, same
+       platform, same tech, a shared feature). If one does, tell the user (*"Your `spirit-box` app
+       skill matches: Web Audio + Capacitor Android. I'll use it as the base."*), load it and start from
+       it: it worked once. Change what doesn't fit, and say what you changed and why.
+     - The project's `AGENTS.md`/`HANDOFF.md` names its own app skill: load it with no question.
+     - Building an app? Keep its app skill current (what it is, how it's built, lessons) at each
+       milestone, so the next similar project can start from it. Make one at the first milestone.
 2. **Folder:** a new project gets its own folder (working in `exp/`? make `exp/racing-game/`). If the
    current folder already holds this project's files, work there. Keep everything neat inside it.
 3. **Storage:** ask once: *"Keep everything (venvs, conda, downloads, caches) inside this folder?"*
@@ -39,6 +51,12 @@ The user's library of general skills (catalog: `{{SKILLS_ROOT}}\README.md`). It'
 - **Timer first, then the message:** start a real 3-min timer with a tool call (Claude Code: Bash,
   `run_in_background: true`, `sleep 180`) *before* writing "I'll wait". No timer tool → don't
   claim to wait; post the suggestion and keep working.
+- **Every suggestion warns:** *"Moving? Reply 'moved' here so I stop."* The old thread can't see the
+  new one, so without that reply its timer fires and both threads edit the same files. On "moved" →
+  stop, no more edits, ignore the timer.
+- **The new thread reminds them too:** its first reply opens with *"⚠️ Reply 'moved' in the old
+  thread if you haven't."* Then it carries on. Edits on disk that `HANDOFF.md` doesn't mention →
+  ask before touching anything.
 - Next milestone: same thing, 3 min. Still no answer → stop asking, just work straight through like
   any agent (notes still kept current).
 - The user says "new thread after X" → finish X, stop. A new thread starts this count fresh.

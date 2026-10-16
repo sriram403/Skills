@@ -22,6 +22,27 @@ when you are about to change the library.
 Project names may stay as **examples** ("in a co-op game, ...", "e.g. the Ellie face build"), never
 as the rule itself.
 
+**App skills (`apps/<app>/SKILL.md`)** are the exception, by the user's choice (2026-10-16). Each is
+the **full record of one app that was built**: what it is, the architecture, how it was built on PC
+and phone, research facts, tests, every lesson, and the ship checklist. They exist so the next similar
+project starts from something that worked ("check the apps skills we already have and see if
+anything matches what we're building today"). Rules:
+- Named after the app (`apps/spirit-box`). §0 of each says **when to use it as a base**: a table of
+  "if the new project has… → reuse…". The table in `apps/README.md` gives a one-line match hint per app.
+- **Private, local only** (the user, 2026-10-16): `apps/` is in `.gitignore` here and has its **own
+  local git** (`apps/.git`). Commit app changes there. Never push it, add a remote to it, or copy an
+  app skill into the public repo unless the user asks. Before pushing this library, check that
+  `git ls-files apps` is empty.
+- At the start of every new or existing project, models check that table (global rules, step 1). Use a
+  matching app as the base, override freely, and tell the user which parts were reused or changed.
+- Not linked into `~/.claude/skills` / `~/.agents/skills` (they'd crowd every project's skill list);
+  models find them through `apps/README.md`. The app's own `AGENTS.md`/`HANDOFF.md` name it by full path.
+- The first lines say which project folder it belongs to; paths inside are relative to that folder.
+- Long parts go in `references/` (build-log, research, platform setup, lessons).
+- Keep it current at each milestone of that app. A lesson that would help *other* apps too goes into
+  the matching general skill (after the user says yes), and the app skill keeps a one-line pointer.
+- Status, TODOs and hand-off notes still stay in the project.
+
 ## 2. Layout
 
 ```
@@ -32,9 +53,10 @@ Skills/
 ├── global/GLOBAL_INSTRUCTIONS.md   the block installed into ~/.claude/CLAUDE.md and ~/.codex/AGENTS.md
 ├── scripts/install.ps1        links skills + installs the global block (idempotent)
 ├── templates/SKILL.md         skeleton for a new skill
-└── skills/<name>/
-    ├── SKILL.md               frontmatter (name, description) + the skill, kept under ~500 lines
-    └── references/*.md        optional detail, loaded only when SKILL.md points to it
+├── skills/<name>/
+│   ├── SKILL.md               frontmatter (name, description) + the skill, kept under ~500 lines
+│   └── references/*.md        optional detail, loaded only when SKILL.md points to it
+└── apps/<app>/SKILL.md        app skills: one app's own know-how (not linked globally; see §1)
 ```
 
 Domain skills (`game-dev`, `3d-modelling`, ...) hold that domain's general knowledge. Cross-cutting

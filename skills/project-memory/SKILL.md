@@ -5,12 +5,14 @@ description: How to keep a project's notes so any new thread or any model (Claud
 
 # Project memory: notes that let any model carry on
 
-**Version: v6 (2026-10-16).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
+**Version: v7 (2026-10-16).** v1 from the Finding Naresh game and the Ellie 3D build, where the notes
 were what let a new thread (or another model) continue with no loss. v2: always on for every
 project. v3: new threads are suggested twice, then the model just works (§4); own folder per project. v4: every new-thread
 suggestion ends with a copy-paste hand-off prompt using full paths (§4). v5: the hand-off prompt and HANDOFF.md name the skills in use, so a new
 thread loads them without asking (§4). v6: start a real timer before saying "I'll wait 3 min";
-no timer tool, no waiting claim (§4).
+no timer tool, no waiting claim (§4). v7: every suggestion tells the user to reply "moved" in the
+old thread, or it keeps working alongside the new one; the new thread repeats that reminder in
+its first reply (§4).
 
 **You may ask the user questions at any point**, e.g. which notes they want for a small project. If
 you're sure, go ahead. Keep messages to the user short and a bit fun, and say *(📓 project-memory)*
@@ -108,8 +110,11 @@ context is, so use these signals rather than guessing a percentage.
 > 🏁 **Milestone 1 done!** Notes are saved.
 >
 > 💡 **Fresh thread?** This chat is mostly old history now. Every reply drags it along: slower, pricier.
-> - 🆕 **New thread:** open one, paste the prompt below 👇
+> - 🆕 **New thread:** open one, paste the prompt below 👇, then **reply "moved" here** so I stop
 > - ▶️ **Stay:** reply "continue" (nothing breaks, just extra baggage)
+>
+> ⚠️ **Moving? Tell me here!** I can't see other threads. Without "moved", my timer goes off and I
+> keep working here too: two threads editing the same files.
 >
 > ⏳ No reply in 3 min → I keep going here. *(📓 project-memory)*
 >
@@ -118,6 +123,15 @@ context is, so use these signals rather than guessing a percentage.
 **Second time:** same, but the last line becomes:
 
 > ⏳ No reply in 3 min → I'll stop asking and just keep building. Say "new thread" any time.
+
+**Why the ⚠️ line is a must** (the user asked for it): the old thread can't see that a new one
+started. Opening a new thread doesn't stop the old one; its timer fires and it carries on, so both
+threads edit the same files and notes and undo each other's work. Keep that line in every
+suggestion, also in step 6 (no timer, keep working), where the old thread is already running.
+
+**The user replies "moved"** (or "new thread", "stop", "I switched") → stop the timer if you can,
+make no more edits, and reply in one line that this thread is parked. If the timer fires later,
+ignore it.
 
 **The hand-off prompt** (the user asked for this). Every time you suggest or start a new thread, end
 the message with a ready-to-paste prompt in a fenced code block (one click to copy). If your app can
@@ -131,10 +145,17 @@ make a "chip" or next-thread task, put the same text in it. Rules:
   `SKILL.md` in use (e.g. `research`, `testing-and-verification`), plus the library catalog. The new
   thread loads them at once, no "use it or go raw?" question, and knows the rest exist if the user
   says "research X" later.
+- **The new thread reminds the user too** (the user asked for this): a `FIRST:` line tells the new
+  model to open its first reply with a one-line reminder to reply "moved" in the old thread. The
+  user may have missed the ⚠️ line there; this is the second chance before two threads collide.
+  Then it carries on; it doesn't wait for an answer. Exception: `git status` or the files show edits
+  that aren't in HANDOFF.md (the old thread may still be working) → ask before touching anything.
 
 Shape (fill in, cut lines that don't apply, keep it to one screen):
 
 ```
+FIRST: open your first reply with: "⚠️ Reply 'moved' in the old thread if you haven't, or it keeps
+working on the same files." Then carry on. Edits on disk that HANDOFF.md doesn't mention → ask first.
 TASK: You are continuing <project, one line>. Read <full path>\HANDOFF.md first and follow it
 exactly: its read order (<full paths of the other notes, with the sections that matter>), then
 resume from its LIVE STATUS.
@@ -166,3 +187,8 @@ user's skills library (its path is in the global rules).
   tell them, and suggest pushing the library (public on GitHub) if it could help others.
 - On a yes, follow that library's `AGENTS.md`: right skill, generalized wording, merged
   rather than appended, changelog line.
+- **Building an app?** It also gets an **app skill** in the library (`apps/<app>/SKILL.md`): the full
+  record of what it is, how it's built (PC and phone), tests and every lesson. Make it at the first
+  milestone, refresh it at each later one, and name it in the project's `AGENTS.md`/`HANDOFF.md`.
+  Starting a project? Check the table in the library's `apps/README.md` first: a match is your base.
+  App skills are private: commit them in `apps/`'s own local git, never push unless the user asks.

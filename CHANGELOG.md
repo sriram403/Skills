@@ -2,6 +2,34 @@
 
 Newest first. One line per change: skill, what changed, which project it came from.
 
+## 2026-10-16: app skills are private
+
+- `apps/` is git-ignored and has its own local git; its catalog moved to `apps/README.md`. App
+  skills are never pushed unless the user asks (the user).
+
+## 2026-10-16: app skills are full records and the base for new projects
+
+- App skills (local) became full records of an app: brief to APK, setup, research, lessons, and
+  when to reuse it as a base (the user).
+- Global rules + AGENTS.md §1 + README: at the start of every new or existing project, check the
+  app skills table; a match is the base (override freely, say what changed); keep an app's
+  skill current at each milestone (the user).
+- `testing-and-verification` v2: test in the container the user runs (wrapped web apps: real
+  injected script + fake native side + tap every button); screenshot toasts while a dialog is open
+  (source: Spirit Box app, first phone test).
+
+## 2026-10-16: app skills get their own folder
+
+- New `apps/` folder for app skills (one app's own know-how, not linked globally; the app's
+  AGENTS.md/HANDOFF.md point to it). Protocol in AGENTS.md §1, catalog in README, global rules
+  mention it (the user).
+
+## 2026-10-16: tell the old thread you moved
+
+- `project-memory` v7 + global rules: every new-thread suggestion warns the user to reply "moved"
+  in the old thread; otherwise its timer fires and both threads edit the same files. The new
+  thread repeats the reminder in its first reply (hand-off prompt `FIRST:` line) (the user).
+
 ## 2026-10-16: real timer before "I'll wait"
 
 - `project-memory` v6 + global rules: start the 3-min timer as a tool call before the new-thread

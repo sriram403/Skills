@@ -20,6 +20,16 @@ transfers gets generalized back into this library.
 | [game-dev](skills/game-dev/SKILL.md) | Making games (Godot, Three.js/web): design and proposals, realistic and lived-in worlds, play-test bots, dev menus, engine gotchas |
 | [3d-modelling](skills/3d-modelling/SKILL.md) | Blender + Python modelling and character likeness with free tools: pipeline with gates, grey-clay checks, landmark/camera/hair fitting |
 
+## App skills (`apps/`)
+
+The **full record of each app already built**: what it is, how it was built (PC and phone), research,
+tests and every lesson. At the start of every project, agents check `apps/README.md`: if today's
+project matches an app, they use it as the base (it worked once) and change what doesn't fit.
+
+**Private and local only:** `apps/` is git-ignored here and has its own local git, so your apps never
+reach GitHub unless you ask. Starting your own library? Make an `apps/` folder with a `README.md`
+table (app, project folder, what it is, what new projects it matches).
+
 ## What your agents will do after installing
 
 **When you start something**
@@ -90,10 +100,11 @@ Skills/
 ├── global/GLOBAL_INSTRUCTIONS.md the always-on rules (installed into each agent's global file)
 ├── scripts/install.ps1           links skills + installs the global rules
 ├── templates/SKILL.md            skeleton for a new skill
-└── skills/<name>/
-    ├── SKILL.md                  frontmatter (name, description) + the skill
-    ├── references/               detail loaded only when needed
-    └── templates/                files a skill hands out
+├── skills/<name>/
+│   ├── SKILL.md                  frontmatter (name, description) + the skill
+│   ├── references/               detail loaded only when needed
+│   └── templates/                files a skill hands out
+└── apps/<app>/SKILL.md           app skills (one app's know-how; not linked globally)
 ```
 
 ## Contributing a skill

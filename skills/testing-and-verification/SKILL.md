@@ -5,8 +5,9 @@ description: How to prove a change really works for the user, on any project (ga
 
 # Testing and verification
 
-**Version: v1 (2026-10-15).** Generalized from the Finding Naresh game's testing method (v1 → v6),
-the Kingsway Pick-Up game, the learning-app builds and the Ellie 3D build.
+**Version: v2 (2026-10-16).** Generalized from the Finding Naresh game's testing method (v1 → v6),
+the Kingsway Pick-Up game, the learning-app builds, the Ellie 3D build and the Spirit Box app
+(v2: test in the user's container; toasts under dialogs).
 
 **You may ask the user questions at any point**, e.g. what they will judge, which device they use,
 whether a long run is worth it now. If you're sure, go ahead.
@@ -26,6 +27,13 @@ time. Every rule below serves that ([`first-principles-solving`](../first-princi
 - **Test the way the user will get there.** Real inputs, real paths, no teleports, no items handed
   over in code, no hazards switched off. Anything a test gives itself that the user doesn't have
   proves nothing.
+- **Test in the container the user runs, not the one you develop in.** A web app wrapped as a phone
+  app (Capacitor, Cordova, Electron, a WebView) gets extra JS injected and loses things the browser had.
+  In the Spirit Box app, 27 desktop tests passed while every JS button was dead on the phone:
+  `Capacitor.registerPlugin` comes from a library the no-bundler app didn't load, so the first line
+  threw. No phone or emulator? Run the web side with the wrapper's **real injected script**, add a
+  fake native side that logs calls, use a phone-sized touch screen, and **tap every button**, checking
+  each one's effect. Then list for the user what only the real device can prove.
 - **Reproduce a user report their way** (their menu, their device, solo on one keyboard). Can't
   reproduce it? Instrument it: logs beat guesses.
 - **Check the tester before the system.** When a test fails, the test player, the probe or your own
@@ -70,6 +78,9 @@ time became the biggest cost) → the watched run.
 
 - **Look at every screenshot critically**, as the user would, not to confirm a check. Most bugs are
   found in the pictures. Anything that looks off is a bug. Take a second angle before concluding.
+  Screenshot feedback messages (toasts, banners) **while a dialog is open** too: a modal `<dialog>`
+  sits in the browser's top layer, so a toast in `<body>` shows dimmed underneath it. Put the toast
+  inside the open dialog. (`elementFromPoint` can't check this for `pointer-events: none` elements.)
 - **Look from where the user stands:** close-ups of every new thing; the exact angle the user looks
   from (if they had to show you an angle, add it to your loop).
 - **Record the run as a video** for the user to verify before they play; watch it yourself first

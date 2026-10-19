@@ -5,9 +5,10 @@ description: How to prove a change really works for the user, on any project (ga
 
 # Testing and verification
 
-**Version: v2 (2026-10-16).** Generalized from the Finding Naresh game's testing method (v1 → v6),
+**Version: v3 (2026-10-20).** Generalized from the Finding Naresh game's testing method (v1 → v6),
 the Kingsway Pick-Up game, the learning-app builds, the Ellie 3D build and the Spirit Box app
-(v2: test in the user's container; toasts under dialogs).
+(v2: test in the user's container; toasts under dialogs; v3: never fire and forget, check every
+run every few seconds while it runs, the user's rule).
 
 **You may ask the user questions at any point**, e.g. what they will judge, which device they use,
 whether a long run is worth it now. If you're sure, go ahead.
@@ -17,6 +18,14 @@ time. Every rule below serves that ([`first-principles-solving`](../first-princi
 
 ## 1. Ground rules
 
+- **Never fire and forget: watch every run while it runs** (the user's rule, for *all* testing, not
+  just some). Whatever you start (a test, a recording, a build, a long script), check it every few
+  seconds against the plan: is it at the step it should be, is the thing that should move moving,
+  any error in the log? The moment it goes off plan, stop it, look, and say so. Don't start it and
+  only read the result at the end. Why: in a game walk the van sat stuck for 1.5 minutes while the
+  script waited out its time limit, and the user, watching the window, saw it before the model did.
+  How: a background run plus a short check loop on its log/progress file (every 2-5 s), or a watcher
+  inside the run (§3) that stops it itself. Both, when you can.
 - **Assume it's broken until proven otherwise.** Report honestly: what passed, what failed (with the
   output), what wasn't tested. The user trusts the report only if it's exact.
 - **Only the final result counts.** A green check or a small error number is a tool, not proof.
@@ -63,7 +72,10 @@ How a human tester works: play on, and stop only when something that should have
    the jetty end within 40 s"). Write the positions and outcomes later steps rely on into the plan.
 2. **Run the steps back to back**; expectations are *watches* that don't block the actions.
 3. **A watcher checks in parallel** (e.g. every 0.1 s): open watches, plus always-true rules (no
-   script error, nothing that should move stands still > 5 s, no give-up line).
+   script error, nothing that should move stands still > 5 s, no give-up line). The "stands still"
+   rule must cover **everything that should move** (players, vehicles, NPCs), and the watcher must
+   never switch itself off when one of them is missing: one returned early when a character wasn't
+   in the scene, which silently skipped the step limits too, and a stuck vehicle went unwatched.
 4. **On the first FAIL: stop the actions, keep the world live**, write a report (the failed watch,
    state, logs, one screenshot), exit so you're told at once. No polling; do other work meanwhile.
 5. **Fix, then resume from the failed step** from a save point taken at each step's start, not from

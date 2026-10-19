@@ -2,6 +2,13 @@
 
 Newest first. One line per change: skill, what changed, which project it came from.
 
+## 2026-10-20: never fire and forget
+
+- `testing-and-verification` v3: watch every run while it runs (check every few seconds against
+  the plan, stop at once when it goes off plan), for all testing (the user); the watcher's
+  "stands still" rule covers everything that should move and never switches itself off (source:
+  Finding Naresh, a stuck van unwatched for 1.5 min).
+
 ## 2026-10-16: app skills are private
 
 - `apps/` is git-ignored and has its own local git; its catalog moved to `apps/README.md`. App

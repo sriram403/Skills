@@ -5,8 +5,9 @@ description: How the user wants games built with an AI, any engine (Godot, Three
 
 # Game development with the user
 
-**Version: v1 (2026-10-15).** Generalized from Finding Naresh (a two-player co-op road-trip game in
-Godot 4, ~3 weeks) and Kingsway Pick-Up (a car-park puzzle in Three.js, one day).
+**Version: v2 (2026-10-19).** Generalized from Finding Naresh (a two-player co-op road-trip game in
+Godot 4, ~3 weeks) and Kingsway Pick-Up (a car-park puzzle in Three.js, one day). v2: proposals lead
+with the hardest idea, then tone down (§1.2, the user's rule).
 
 **You may ask the user questions at any point**, and early: what kind of game, who plays it (solo?
 two on one keyboard?), which engine, what it should feel like, what "done" is for this version. Ask in
@@ -26,6 +27,9 @@ Engine notes: [Godot 4](references/godot.md) · [Three.js / web](references/web-
    the thing that belongs to that game and place (the water works' own pump house, not a generic box),
    write a short proposal with numbers, add your own ideas marked S1, S2, ... (yes / no each), wait
    for the answers, then build. "Let's discuss" means discuss, not build.
+   **Lead with the hardest, craziest version** (the 10 / 10) and what it costs in play time; the user
+   tones it down (easier than pushing a safe idea up). Plain words, no engineering names ("a barrier
+   pole", not "a boom"), and the answer in the message itself, never only behind a question box.
 3. **One part at a time, the user's test decides.** Build a part, test it yourself until clean, hand
    over with a plain test guide (do / expect / tell me), wait for their OK before pushing or moving on.
    Bug fixes with passing tests can go out at once if the user agrees to that rule.

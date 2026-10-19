@@ -5,7 +5,7 @@ description: How the user wants any problem solved, built on Elon Musk's first p
 
 # First-principles solving
 
-**Version: v4 (2026-10-15).** v2 added remembering mistakes, v3 four more habits, v4 the lessons
+**Version: v5 (2026-10-20).** v5: a fix that loops moves to a test bench, causes tried from the most obvious (the user). v2 added remembering mistakes, v3 four more habits, v4 the lessons
 from a 3D likeness build (metrics are not the goal, change the method when it loops, no view = not
 checked). Written from the user's own words while building a game (Finding Naresh) and a 3D character
 (Ellie); meant for any model and any problem.
@@ -67,6 +67,13 @@ Related: [`research`](../research/SKILL.md) (learning a topic fast),
    final result means stop and switch: another tool, another technique, or restart the part from
    scratch. When the metric is at noise level and the result still looks wrong, the metric can't see
    the error: change method, not the numbers.
+   **For a bug, the switch is a test bench** (the user's rule): after 2-3 fixes that didn't fix it,
+   stop fixing it inside the big system. Rebuild the same setup small and on its own (a gym, a scene
+   with just those parts, a script), write the possible causes in order from the most obvious (what
+   you can *see* is wrong in a picture) to the least likely, and test them there one by one; then pull
+   the fix back into the real thing. In a game, a van stalling on a seesaw bridge took many rounds of
+   small guesses in the full world; the user's obvious first suspect was what the picture showed
+   (the tyres sunk into the deck).
 10. **Honesty at every step:** say plainly whether each step moved the final result forward or
     dragged it down. Anything that drags gets removed ("the best part is no part").
 

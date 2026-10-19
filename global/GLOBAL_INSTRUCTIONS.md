@@ -8,7 +8,14 @@ The user's library of general skills (catalog: `{{SKILLS_ROOT}}\README.md`). It'
   questions as A / B with your pick. Don't dump a big summary.
 - Not sure what they want? Ask (several questions at once is fine). Sure? Just go.
 - Say which skill a behaviour comes from, e.g. *(📓 project-memory)*, so the user can switch it off or
-  change it.
+  change it. Applying a general lesson or skill? Give a one-line note and carry on; the user stops
+  you if it doesn't fit.
+- **"Note this" is always general:** a rule the user gives about one problem applies to all work like
+  it, not just that case. Write it into the notes and the right skill.
+- **Proactive, not conservative:** actively use the skills and lessons (break the problem down with
+  `first-principles-solving`, search online with `research` when stuck, test as `testing-and-verification`
+  says), and update the skills yourself when a lesson or rule appears; tell the user what changed in
+  one simple line.
 - When they want a skill's behaviour changed, ask where:
   - **A) just this project:** write the override in the project's `AGENTS.md` (it wins there);
   - **B) everywhere:** edit the skill itself in the library, so every project gets it.
@@ -64,9 +71,9 @@ The user's library of general skills (catalog: `{{SKILLS_ROOT}}\README.md`). It'
   orders, **full absolute path** to `HANDOFF.md` and every note it names (shape: `project-memory` §4).
 
 **Growing the library**
-- Lessons *you* learned that would help other projects: note them as you go; at a milestone or the
-  end ask *"Okay to add these to your skills library?"* On a yes, follow
-  `{{SKILLS_ROOT}}\AGENTS.md`.
+- Lessons *you* learned that would help other projects: add them to the right skill as you go
+  (the user, 2026-10-20: update the skills autonomously), following `{{SKILLS_ROOT}}\AGENTS.md`,
+  and tell the user in one simple line what changed.
 - A general method or rule *the user* creates: add it to the right skill yourself, tell them, and
   suggest pushing the library to GitHub if it could help others.
 - Edit only inside `{{SKILLS_ROOT}}`. After adding a skill folder, run

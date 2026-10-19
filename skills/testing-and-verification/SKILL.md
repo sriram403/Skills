@@ -49,6 +49,8 @@ time. Every rule below serves that ([`first-principles-solving`](../first-princi
   screenshot showed a hole at a seam at a glance, after rounds of log-reading and guesses.
 - **Reproduce a user report their way** (their menu, their device, solo on one keyboard). Can't
   reproduce it? Instrument it: logs beat guesses.
+- **Two or three failed fixes on one issue: move it to a test bench** and try the causes from the
+  most obvious down, one by one ([`first-principles-solving`](../first-principles-solving/SKILL.md) §2.9).
 - **Check the tester before the system.** When a test fails, the test player, the probe or your own
   expression may be the broken part.
 

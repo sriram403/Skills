@@ -3,6 +3,10 @@
 Newest first. One line per change: skill, what changed, which project it came from.
 
 ## 2026-10-20: never fire and forget
+- `first-principles-solving` v5: a bug fix that loops (2-3 tries) moves to a test bench, causes tried
+  from the most obvious (what's visible) to the least, then the fix goes back (the user).
+- Global rules: "note this" is always general; proactive, not conservative (use the skills actively,
+  update them yourself, tell the user in one line); lessons go into skills without asking first (the user).
 - `testing-and-verification`: debug from pictures (a shot of the stuck moment from a useful
   angle), logs only support (the user).
 

@@ -43,6 +43,10 @@ time. Every rule below serves that ([`first-principles-solving`](../first-princi
   threw. No phone or emulator? Run the web side with the wrapper's **real injected script**, add a
   fake native side that logs calls, use a phone-sized touch screen, and **tap every button**, checking
   each one's effect. Then list for the user what only the real device can prove.
+- **Debug from pictures, not only logs** (the user's rule). When something is stuck or wrong, take
+  a picture of that moment from an angle that shows it (side on, close up, where a person would
+  stand), or pull video frames around it, and reason from what you see; numbers back it up. A user's
+  screenshot showed a hole at a seam at a glance, after rounds of log-reading and guesses.
 - **Reproduce a user report their way** (their menu, their device, solo on one keyboard). Can't
   reproduce it? Instrument it: logs beat guesses.
 - **Check the tester before the system.** When a test fails, the test player, the probe or your own

@@ -3,6 +3,8 @@
 Newest first. One line per change: skill, what changed, which project it came from.
 
 ## 2026-10-20: never fire and forget
+- `testing-and-verification`: debug from pictures (a shot of the stuck moment from a useful
+  angle), logs only support (the user).
 
 - `testing-and-verification` v3: watch every run while it runs (check every few seconds against
   the plan, stop at once when it goes off plan), for all testing (the user); the watcher's

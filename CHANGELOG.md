@@ -2,6 +2,12 @@
 
 Newest first. One line per change: skill, what changed, which project it came from.
 
+## 2026-10-20: map the whole domain, not just the user's list
+- `learning-skill` v3: Step 0.5, research the full landscape of the topic and triage it core / good
+  to know / skip in a coverage map before the curriculum; flag what the user didn't ask about but
+  needs (the user; source: git/GitHub course, where tests + GitHub features were missed at first).
+- `research`: procedure step 2, map the whole territory when the user is new to a field (the user).
+
 ## 2026-10-20: the form serves the teaching
 - `learning-skill` v2: §0, the user's rule: no default format; pick or invent the form this topic
   needs, crazy ideas welcome, the only test is "complex made easy, intuitive, hands-on" (the user).

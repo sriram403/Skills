@@ -33,24 +33,28 @@ Related: [`first-principles-solving`](../first-principles-solving/SKILL.md) (the
 
 1. **Frame it.** One line: what decision or build does this research serve, and what would "enough"
    look like? Ask the user if unclear. Time-box it (say the box).
-2. **Smallest experiment beats more reading.** If a 2-minute test answers the question (does the tool
+2. **Map the whole territory, not just the asked-about part.** When the user is new to a field,
+   what they list is a starting point, not the scope: they can't name what they don't know exists.
+   Sweep the full landscape (official docs' table of contents, official learning paths, what pros use
+   daily), triage core / good to know / skip, and flag what they didn't ask about but will need (the user).
+3. **Smallest experiment beats more reading.** If a 2-minute test answers the question (does the tool
    run on this PC? are two instances OK? does the API accept this?), run it instead of reading about
    it. Never accept a limit you haven't tested.
-3. **Primary sources first:** official docs, the source code, the spec, the original paper, the
+4. **Primary sources first:** official docs, the source code, the spec, the original paper, the
    professional's own write-up. Summaries and forums second, and marked as such.
-4. **More references beat more cleverness.** If you can still find more relevant references (other
+5. **More references beat more cleverness.** If you can still find more relevant references (other
    angles, other cases, other sources), you haven't finished looking. Front and side are the minimum,
    never the goal.
-5. **One consistent source first.** Mixing versions (two games, an old and a new API, the actor and
+6. **One consistent source first.** Mixing versions (two games, an old and a new API, the actor and
    the character) gives an answer that matches none. Use others only to fill gaps, and mark them.
-6. **Mark every fact** solid (seen at the source, reproduced) or uncertain (one secondary source,
+7. **Mark every fact** solid (seen at the source, reproduced) or uncertain (one secondary source,
    memory). Reproduce every number you'll rely on.
-7. **Look at how professionals do it.** For any craft (character art, game testing, data pipelines),
+8. **Look at how professionals do it.** For any craft (character art, game testing, data pipelines),
    search for the pros' workflow before inventing one; adapt it to the free tools you have.
-8. **Write it down as you go** in a file in the project (sources with links, what each was used for,
+9. **Write it down as you go** in a file in the project (sources with links, what each was used for,
    what's still open), not only in the chat. Index gathered material (file, source, what it shows,
    quality, used for), e.g. `refs/INDEX.md`.
-9. **Report:** the answer first, then how sure you are, the sources (links), and what you couldn't
+10. **Report:** the answer first, then how sure you are, the sources (links), and what you couldn't
    verify. Short and plain.
 
 ## 3. Habits from real mistakes

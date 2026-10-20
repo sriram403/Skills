@@ -5,8 +5,9 @@ description: Build a complete, visual, interactive learning experience in whatev
 
 # Learning Skill
 
-**Version: v2 (2026-10-20).** v1: the academy method (SpecExtract, LexBolt, music). v2: the user's
+**Version: v3 (2026-10-20).** v1: the academy method (SpecExtract, LexBolt, music). v2: the user's
 rule "the form serves the teaching" (§0) and a second case study, a hands-on blog for learning a web app.
+v3: map the whole domain before the curriculum, not just what the user listed (Step 0.5, the user).
 
 **Mission:** Given a topic (and optionally source materials), build a self-contained learning app so the user can understand the topic end to end — everything the sources say, and everything they silently assume — well enough to hold a real conversation with a 10+ year expert, and to reason about it themselves.
 
@@ -70,6 +71,20 @@ First look over the sources/project enough to know what you don't know. Then, **
 - **Output location.** Default: a new folder `<topic>_academy/` next to the sources.
 
 When the user comes back with feedback on a build, ask again before rebuilding, but only the questions whose answer changes the build (e.g. where practice examples go, what the practice artifact is about, how many explanation levels). Offer a recommended option for each.
+
+### Step 0.5: Map the WHOLE domain first, not just what the user listed (the user's rule, 2026-10-20)
+A beginner can't list what they don't know exists, so their request and their sources are a
+**starting point, never the scope**. Before designing the curriculum:
+1. **Research the full landscape** of the topic from primary sources (the official docs' table of
+   contents, the official learning path, a "what pros use daily" search): every feature, concept and
+   workflow area, not only the ones the user or the sources mention.
+2. **Triage each item** for the user's goal: **core** (a pro uses it daily / the goal needs it),
+   **good to know** (one short section), **skip** (say why). Write the map into the project
+   (e.g. `notes/COVERAGE.md`) and show it to the user, so they can see what's in, what's out and why.
+3. **Every core item gets a home** in the semantic tree; anything the goal depends on that the user
+   never mentioned gets flagged to them ("you didn't ask about X, but you'll need it because…").
+(From a git/GitHub course: tests and GitHub's feature areas were only added after the user asked
+"what's this?", because the map was built from their list and one blog.)
 
 ### Step 1: Take the engine apart (source analysis)
 1. Read **every** source completely. For PDFs: extract the text (`pdftotext -layout`) **and** render the pages as images (`pdftoppm -jpeg -r 120 file.pdf out/prefix`), then look at the visual pages; text extraction misses charts and layout.

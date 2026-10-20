@@ -2,6 +2,12 @@
 
 Newest first. One line per change: skill, what changed, which project it came from.
 
+## 2026-10-20: the form serves the teaching
+- `learning-skill` v2: §0, the user's rule: no default format; pick or invent the form this topic
+  needs, crazy ideas welcome, the only test is "complex made easy, intuitive, hands-on" (the user).
+  Case study 2: the hands-on blog for a web app, and the habit of checking every picture against its
+  note (source: AL Pilot guide).
+
 ## 2026-10-20: never fire and forget
 - `first-principles-solving` v5: a bug fix that loops (2-3 tries) moves to a test bench, causes tried
   from the most obvious (what's visible) to the least, then the fix goes back (the user).

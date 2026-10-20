@@ -1,9 +1,12 @@
 ---
 name: learning-skill
-description: Build a complete, visual, interactive learning app (course + hands-on labs + source viewer + glossary + cheat sheet) that takes the user from zero to expert-level fluency on ANY topic or set of source materials (PDFs, docs, a song, a codebase, a domain). Built on Elon Musk's first-principles, semantic-tree and "teach to the problem" methods. Use when the user says "learning skill", "teach me X end to end", "help me understand these materials", "build a learning thing for X", or points at this file.
+description: Build a complete, visual, interactive learning experience in whatever form teaches best (an app with course + labs + glossary, a hands-on blog next to the running app, a step-through journey, a game, or something new) that takes the user from zero to expert-level fluency on ANY topic or set of source materials (PDFs, docs, a song, a codebase, a domain). Built on Elon Musk's first-principles, semantic-tree and "teach to the problem" methods. Use when the user says "learning skill", "teach me X end to end", "help me understand these materials", "build a learning thing for X", or points at this file.
 ---
 
 # Learning Skill
+
+**Version: v2 (2026-10-20).** v1: the academy method (SpecExtract, LexBolt, music). v2: the user's
+rule "the form serves the teaching" (§0) and a second case study, a hands-on blog for learning a web app.
 
 **Mission:** Given a topic (and optionally source materials), build a self-contained learning app so the user can understand the topic end to end — everything the sources say, and everything they silently assume — well enough to hold a real conversation with a 10+ year expert, and to reason about it themselves.
 
@@ -12,9 +15,31 @@ description: Build a complete, visual, interactive learning app (course + hands-
 Two builds prove the pattern (look at them if they exist on this machine; don't depend on them):
 - `D:\mine\Agentics\T3_Code_Works\music_understanding\playground\` — music theory taught *on a real song* (studio + story-driven academy with tasks the app checks automatically).
 - `D:\mine\jags\Learning\basics\lexbolt_academy\` — two business PDFs (vehicle regulation + AI strategy) taught from zero: 29 chapters, 13 labs, every PDF page explained, 231-term glossary.
-- `D:\mine\jags\ashok\specextract_journey\` — **the user's favourite so far.** A codebase (a PDF-to-JSON extractor) taught as "follow one PDF from bytes to JSON": real page on the left with toggleable overlays, lessons on the right, a purpose-built practice PDF, click-through visual steppers driven by the engine's real trace. See **Case study** at the end of this file.
+- `D:\mine\jags\ashok\specextract_journey\` — **one of the user's favourites.** A codebase (a PDF-to-JSON extractor) taught as "follow one PDF from bytes to JSON": real page on the left with toggleable overlays, lessons on the right, a purpose-built practice PDF, click-through visual steppers driven by the engine's real trace. See **Case study 1** at the end of this file.
+- `D:\mine\jags\server\new_v10\AL_Pilot_v5_1_2_Blog.html` — **the user loves this one too, in a completely different form.** A web app taught as one long-read blog: before every screen a "Do this now" card says what to click on a practice copy, then a real screenshot with numbered markers, plain-words notes, mini-labs, quizzes and short mission videos. See **Case study 2**.
 
-> **These builds prove the *method*, not a UI template. Do NOT copy their layout, flow or look.** Every project gets its own flow and UI, designed around what that project is and how it's best learned (a codebase might be taught as a guided walk through a request's journey; a pipeline as a step-by-step data trace; a song as a studio). The layout, routes and file list in Step 4 are a starting skeleton only — change, drop or replace any part of them when the project calls for it.
+> **These builds prove the *method*, not a UI template. Do NOT copy their layout, flow or look.** Every project gets its own flow and UI, designed around what that project is and how it's best learned (a codebase might be taught as a guided walk through a request's journey; a pipeline as a step-by-step data trace; a song as a studio; an app as a hands-on blog next to the running app). The layout, routes and file list in Step 4 are a starting skeleton only — change, drop or replace any part of them when the project calls for it.
+
+---
+
+## 0. The form serves the teaching (the user's rule, 2026-10-20)
+
+The user, in their words: *"it's not the format I care about, it's about what is needed for that
+specific teaching… try crazy ideas… at the end of the day if it teaches me a complex topic easily,
+in an intuitive and interactable way, I'm all here for it."*
+
+- **No format is the default.** Academy app, long-read blog, split-screen journey, studio, game,
+  simulator, comic, mission videos, a fake chat with an expert, a puzzle you can only solve by
+  understanding the idea… Pick (or invent) whatever makes *this* topic click. Mix forms freely.
+- **Ask first: "what has to happen in the learner's head?"** Then choose the form. A thing you do
+  (an app) → do it alongside the reading. A mechanism (an algorithm) → watch it step by step and
+  poke it. A system → a map you drill into. Feelings and judgement (a negotiation) → role-play.
+- **Crazy ideas are welcome.** If you have an unusual idea that could teach better, build it or
+  pitch it (marked S1, S2, … with your pick). A small working prototype beats a long description.
+- **The only test:** did a complex thing become easy, intuitive and hands-on for the user? Polish,
+  completeness and looking "professional" count only when they serve that.
+- **What stays fixed is the method** (§1 principles, Step 0 intake, words before use, visual first,
+  verify everything), not the look. Everything in Step 4 is a skeleton you may throw away.
 
 ---
 
@@ -166,6 +191,7 @@ Run one more pass: question each chapter (does it serve the goal?), delete, simp
 ---
 
 ## 3. Quality bar (all must be true)
+- [ ] The form was chosen for what this topic needs (§0), not copied from an earlier build.
 - [ ] A complete beginner can start at chapter 1 with no outside help.
 - [ ] Every page of every source is explained somewhere and linked back.
 - [ ] Every term of art has a hover definition.
@@ -195,7 +221,7 @@ Run one more pass: question each chapter (does it serve the goal?), delete, simp
 
 ---
 
-## Case study: SpecExtract Journey (the build the user loved)
+## Case study 1: SpecExtract Journey (the build the user loved)
 
 **The problem.** The user (an AI/ML engineer who builds with AI help) had a working project, a deterministic extractor that turns Ashok Leyland AIS-007 specification PDFs into traceable JSON (pdfplumber geometry → cells → active cells per row → value boundary vote → records → hierarchy → JSON, plus a FastAPI app and a holdout evaluation). They had to explain and defend it to a client, tech leads and interviewers, but were new to PDF internals and extraction.
 
@@ -216,6 +242,35 @@ Run one more pass: question each chapter (does it serve the goal?), delete, simp
 **What the user loved.** The lessons on the real page with explanation alongside; the clickable labs where changing something visibly changes the output (the merged-cell "who owns this row" lab); the visual steppers; the practice form; the honest limits and evaluation story ("why 97.3% is not the accuracy", regression vs unseen).
 
 **What failed first (and the fix).** v1 of lessons 5+ used terms before defining them ("right edge", "vote", "Counter.most_common") and described geometry in prose ("adds 0.05 pt") → rewritten words-first with steppers. Referenced pages had to be opened manually → every reference switches the left page. A lab dropdown didn't update the page; a lab input was white-on-white → fixed and added to the verification sweep. One lesson claim (that averaging would mis-sort boxes) was not true on the practice data → reworded to the honest version. Lesson: verify the *teaching claims* against the data, not only the code.
+
+---
+
+## Case study 2: the hands-on blog for a web app (a different form the user also loved)
+
+**The problem.** The user had to learn and then demo a large web app (a vehicle-homologation
+workspace: requests, evidence, templates, rule updates, roles), 119 screens deep. Earlier tries
+didn't stick: a 270 KB every-button walkthrough ("I got lazy"), terse spec-style notes ("I had to ask
+another assistant what 0 / 88 means").
+
+**What was built, and why.** One long-read HTML page, generated by a Node script from a frozen
+markdown guide plus blog-only add-on files.
+| Choice | Why |
+|---|---|
+| A "Do this now" card before every screen: which role to sign in as, exact clicks, values to type | The user wants to *do* it, not read about it. The app runs on the left, the blog on the right. |
+| One continuous practice journey on a resettable practice copy (things made in chapter 1 are reused in chapter 7) | A real job with a goal sticks; disconnected demos don't. The reset script makes every screen match the guide. |
+| Real screenshots with numbered markers measured from the live DOM by Playwright, plus a zoomed close-up per note | The picture can't drift from the app, and each note points at exactly one thing. |
+| Each note: the name → *"one plain-words line"* → detail → a worked example with real numbers ("16 blocks → resolve one → 15") | Short notes alone were unreadable; every number explains where it comes from. |
+| Extra explanation added in a separate file keyed by section/screen/note, not in the source md | The user froze the md once they loved the blog; new explanations go in the blog's own files. |
+| Mission videos (≤3 s per step, captions) for the big journeys, linked from their chapter | Watching the real job is faster than reading about it; the user pauses to read. |
+| Blog look: night mode, a tree sidebar with a progress bar, flows, quizzes, small labs, a glossary | Inspired by an engineering-blog look the user liked; visuals made a complex app feel calm. |
+
+**What went wrong (and the habit).** Ten of the 119 pictures were wrong while their text was right:
+markers one field too low, the same item shown twice, a dialog still covering the result. Causes: the
+marker boxes counted the page's scroll offset but the cut-out picture didn't; a script's "saved" check
+matched the *previous* save message, so a re-run saved a duplicate. **Habit:** after generating
+illustrated material, check every picture against its note's title (does marker N sit on the thing
+note N names?) and compare the numbers on screen with the numbers the text quotes. A geometry check
+script (two markers on one box, a marker off the picture) finds candidates; the eyes confirm.
 
 ---
 

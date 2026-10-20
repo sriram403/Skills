@@ -14,7 +14,7 @@ transfers gets generalized back into this library.
 |---|---|
 | [first-principles-solving](skills/first-principles-solving/SKILL.md) | Any "how should we do X" problem: core problem first, Elon's algorithm, versioned ideas, change method when it loops, the mistake log |
 | [research](skills/research/SKILL.md) | Researching or learning anything fast: framing, primary sources, many references, solid vs uncertain, smallest experiment; web gathering (images, video frames, downloads) |
-| [learning-skill](skills/learning-skill/SKILL.md) | Building an interactive learning app that teaches you a topic or source material end to end |
+| [learning-skill](skills/learning-skill/SKILL.md) | Teaching you a topic or source material end to end, in whatever form works best (app, hands-on blog, journey, game…) |
 | [project-memory](skills/project-memory/SKILL.md) | Notes that let any thread or model continue: hand-off + LIVE STATUS, lessons, mistake log, new-thread suggestions (**always on**) |
 | [testing-and-verification](skills/testing-and-verification/SKILL.md) | Proving a change works: checks that can fail, testing like the user, test sized to the change, watched runs, change ledger, videos |
 | [game-dev](skills/game-dev/SKILL.md) | Making games (Godot, Three.js/web): design and proposals, realistic and lived-in worlds, play-test bots, dev menus, engine gotchas |
